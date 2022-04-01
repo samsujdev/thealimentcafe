@@ -133,6 +133,42 @@
     position: relative;
 }
 
+.ReactDatePicker {
+    position: relative;
+    width: 100%;
+}
+
+.ReactDatePicker svg {
+    position: absolute;
+    width: 18px;
+    color: #c9c9c9;
+    top: 15px;
+    right: 12px;
+    z-index: -1;
+}
+
+.NoDataFound {
+    text-align: center;
+    padding: 50px 0;
+}
+
+.NoDataFound svg {
+    width: 50px;
+    height: auto;
+    stroke-width: 1;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.NoDataFound p {
+    color: #888888;
+    font-size: 18px;
+    font-weight: 300;
+    text-align: center;
+    margin: 0;
+    white-space: nowrap;
+}
+
 @media (min-width: 360px) {
     .SalesDropDownDiv {
         width: 150px;

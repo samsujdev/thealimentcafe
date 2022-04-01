@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import styles from './sales.module.css';
 import { InputLabel, MenuItem, FormControl, Select, TextField } from '@material-ui/core';
-import { ArrowLeft } from 'react-feather';
+import { ArrowLeft, Calendar } from 'react-feather';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Header from "../../components/header";
 import DatePicker from "react-datepicker";
@@ -120,7 +120,10 @@ function Sales() {
                 />
               </div>}
               {(filteBy === 'date') && <div className={`${styles.SalesDropDownDiv}`}>
-                <DatePicker selected={selectedDate} onChange={changeDate} />
+                <div className={`${styles.ReactDatePicker}`}>
+                <DatePicker className='ReactDatePickerBig' selected={selectedDate} onChange={changeDate} />
+                <Calendar/>
+              </div>
               </div>}
             </div>
 
