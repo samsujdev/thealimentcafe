@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react';
 import styles from './list.module.css';
-import { ArrowLeft, FilePlus } from 'react-feather';
+import { ArrowLeft, FilePlus,AlertTriangle } from 'react-feather';
 import axios from 'axios';
 import Header from "../../components/header";
 import withAuth from "../../components/withAuth";
@@ -84,6 +84,14 @@ function MenuList() {
                     </td>
                   </tr>);
                 })}
+                {!menuList.data.length && <tr>
+                  <td colSpan={8}>
+                    <div className={`${styles.NoDataFound}`}>
+                      <AlertTriangle />
+                      <p>No data Found</p>
+                    </div>
+                  </td>
+                </tr>}
                 </tbody>
               </table>
             </div>

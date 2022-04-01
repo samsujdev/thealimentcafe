@@ -1,15 +1,17 @@
 import React from 'react';
 import styles from './list.module.css';
 import { FormControlLabel, Checkbox } from '@material-ui/core';
-import { ArrowLeft, Plus } from 'react-feather';
+import { ArrowLeft, Plus,AlertTriangle } from 'react-feather';
 import axios from 'axios';
 import Header from "../../components/header";
+import Loader from "../../components/loader";
 import withAuth from "../../components/withAuth";
 import { Link } from "react-router-dom";
 
 
 class Order extends React.Component {
   state = {
+    loading:false,
     itemList: [],
     orderList:[]
   }
@@ -40,31 +42,37 @@ class Order extends React.Component {
   }
 
   setPayment = (event,itemId)=>{
+    this.setState({...this.state,loading:true});
     let is_paid = 0;
     if(event.target.checked){
       is_paid = 1;
     }
     axios.put(process.env.REACT_APP_APIURL+'v1/orders/'+itemId,{is_paid:is_paid})
     .then(res => {
+      this.setState({...this.state,loading:false});
       clearInterval(this.interval2);
       this.fetchOrders();
       this.interval2 = setInterval(() => this.fetchOrders(), 5000);
     }).catch(err =>{
+      this.setState({...this.state,loading:false});
       console.log(err);
     });
   }
 
   setDelivered = (event,itemId)=>{
+    this.setState({...this.state,loading:true});
     let status = 1;
     if(event.target.checked){
       status = 2;
     }
     axios.put(process.env.REACT_APP_APIURL+'v1/orders/'+itemId,{status:status})
     .then(res => {
+      this.setState({...this.state,loading:false});
       clearInterval(this.interval2);
       this.fetchOrders();
       this.interval2 = setInterval(() => this.fetchOrders(), 5000);
     }).catch(err =>{
+      this.setState({...this.state,loading:false});
       console.log(err);
     });
   }
@@ -74,6 +82,7 @@ class Order extends React.Component {
   return (
     <div>
 
+      {this.state.loading && <Loader />}
       <Header />
 
         
@@ -174,7 +183,14 @@ class Order extends React.Component {
                 </tr>)
                 })}
                 
-           
+                {!this.state.orderList.length && <tr>
+                  <td colSpan={8}>
+                    <div className={`${styles.NoDataFound}`}>
+                      <AlertTriangle />
+                      <p>No data Found</p>
+                    </div>
+                  </td>
+                </tr>}
               </table>
             </div>
 

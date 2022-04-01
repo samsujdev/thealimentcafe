@@ -6,14 +6,20 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import axios from 'axios';
 import Header from "../../components/header";
+import Loader from "../../components/loader";
 import withAuth from "../../components/withAuth";
 import { useHistory,Link } from "react-router-dom";
 
 function CeateMenu() {
   const router = useHistory();
-  const { register, handleSubmit, control,setValue } = useForm();
+  const { register, handleSubmit, control,setValue } = useForm({
+    defaultValues: {
+      menu_item: [{ unit: 0 }]
+    }
+  });
   const [itemList,setItemList] = useState({'data':[],'loading':false});
   const { fields, append } = useFieldArray({ control, name: "menu_item" });
+  const [loading, setLoading] = React.useState(false);
 
   useEffect(() => {
     
@@ -44,10 +50,13 @@ function CeateMenu() {
   });
 
   const onSubmit = data => {
+    setLoading(true);
     axios.post(process.env.REACT_APP_APIURL+'v1/menus',data)
     .then(res => {
+      setLoading(false);
       router.push('/menus/list');
     }).catch(err =>{
+      setLoading(false);
       console.log(err);
     });
   };
@@ -55,6 +64,7 @@ function CeateMenu() {
   return (
     <div>
 
+        {loading && <Loader />}
         <Header />
 
         <div className="Body">

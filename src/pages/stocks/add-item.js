@@ -5,6 +5,7 @@ import { TextField, Button, Snackbar } from '@material-ui/core';
 import axios from 'axios';
 import withAuth from "../../components/withAuth";
 import Header from "../../components/header";
+import Loader from "../../components/loader";
 import { Link } from "react-router-dom";
 
 
@@ -12,6 +13,7 @@ function AddItem() {
   const [itemList,setItemList] = useState({'data':[],'loading':false});
   const [addData,setAddData] = useState('');
   const [editData,setEditData] = useState([]);
+  const [loading, setLoading] = React.useState(false);
   
 
   const [state, setState] = React.useState({
@@ -60,6 +62,7 @@ function AddItem() {
 
   const addItem = () =>{
     if(addData !== ''){
+      setLoading(true);
       axios.post(process.env.REACT_APP_APIURL+'v1/items',{item_name:addData})
       .then(res => {
         setAddData('');
@@ -79,13 +82,17 @@ function AddItem() {
           setState({ ...newState, open: false });
         },2000);
 
+        setLoading(false);
+
       }).catch(err =>{
+        setLoading(false);
         console.log(err);
       });
     }
   }
 
   const editItem = (id,index)=>{
+    setLoading(true);
     let item_name = editData[index];
     axios.put(process.env.REACT_APP_APIURL+'v1/items/'+id,{item_name:item_name})
       .then(res => {
@@ -97,7 +104,9 @@ function AddItem() {
           setState({ ...newState, open2: false });
         },2000);
 
+        setLoading(false);
       }).catch(err =>{
+        setLoading(false);
         console.log(err);
       });
   }
@@ -111,6 +120,7 @@ function AddItem() {
   return (
     <div>
 
+        {loading && <Loader />}
         <Header />
 
         <div className="Body">

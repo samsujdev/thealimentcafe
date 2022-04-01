@@ -6,6 +6,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import axios from 'axios';
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import Header from "../../components/header";
+import Loader from "../../components/loader";
 import withAuth from "../../components/withAuth";
 import { useHistory,Link } from "react-router-dom";
 import moment from 'moment';
@@ -15,9 +16,14 @@ import moment from 'moment';
 
 function StockUpdate() {
   const router = useHistory();
-  const { handleSubmit, control,setValue } = useForm();
+  const { handleSubmit, control,setValue } = useForm({
+    defaultValues: {
+      menu_item: [{ unit: 0 }]
+    }
+  });
   const [itemList,setItemList] = useState({'data':[],'loading':false});
   const { fields, append } = useFieldArray({ control, name: "menu_item" });
+  const [loading, setLoading] = React.useState(false);
 
   useEffect(() => {
     
@@ -48,10 +54,13 @@ function StockUpdate() {
   });
 
   const onSubmit = data => {
+    setLoading(true);
     axios.post(process.env.REACT_APP_APIURL+'v1/item-stock-update',data)
     .then(res => {
+      setLoading(false);
       router.push('/dashboard');
     }).catch(err =>{
+      setLoading(false);
       console.log(err);
     });
   }
@@ -59,6 +68,7 @@ function StockUpdate() {
   return (
     <div>
 
+        {loading && <Loader />}
         <Header />
 
         <div className="Body">

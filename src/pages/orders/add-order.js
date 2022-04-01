@@ -6,6 +6,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import axios from 'axios';
 import { useForm,Controller,useFieldArray } from "react-hook-form";
 import Header from "../../components/header";
+import Loader from "../../components/loader";
 import withAuth from "../../components/withAuth";
 import { useHistory,Link } from "react-router-dom";
 
@@ -25,6 +26,7 @@ function AddOrder() {
   const [subTotalAmount,setSubTotalAmount] = useState(0);
   const [discountAmount,setDiscountAmount] = useState(0);
   const [radioDisabled,setRadioDisabled] = useState(true);
+  const [loading, setLoading] = React.useState(false);
 
   useEffect(() => {
     
@@ -85,6 +87,7 @@ function AddOrder() {
   }
 
   const onSubmit = data => {
+    setLoading(true);
     let payLoad = data;
     payLoad = {
       ...payLoad,
@@ -95,8 +98,10 @@ function AddOrder() {
     
     axios.post(process.env.REACT_APP_APIURL+'v1/orders',payLoad)
     .then(res => {
+      setLoading(false);
       router.push('/orders/list');
     }).catch(err =>{
+      setLoading(false);
       console.log(err);
     });
 
@@ -107,6 +112,7 @@ function AddOrder() {
   return (
     <div>
 
+        {loading && <Loader />}
         <Header />
 
         <div className="Body">

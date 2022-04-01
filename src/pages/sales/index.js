@@ -1,9 +1,10 @@
 import React,{useState,useEffect} from 'react';
 import styles from './sales.module.css';
 import { InputLabel, MenuItem, FormControl, Select, TextField } from '@material-ui/core';
-import { ArrowLeft, Calendar } from 'react-feather';
+import { ArrowLeft, Calendar,AlertTriangle } from 'react-feather';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Header from "../../components/header";
+import Loader from "../../components/loader";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
@@ -13,9 +14,10 @@ import { Link } from "react-router-dom";
 
 function Sales() {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [filteBy, setFilterBy] = useState('');
+  const [filteBy, setFilterBy] = useState('date');
   const [orderList,setOrderList] = useState([]);
   const [menuList,setMenuList] = useState([{'data':[],'loading':false}]);
+  const [loading, setLoading] = React.useState(false);
   let totalAmount = 0;
 
   useEffect(() => {
@@ -42,11 +44,13 @@ function Sales() {
 
     if(!menuList.loading){
       fetchMenus();
+      fetchOrdersByDate(selectedDate);
     }
 
   });
 
   const handleChange = (event) => {
+    setOrderList([]);
     totalAmount = 0;
     setFilterBy(event.target.value);
     if(event.target.value === 'date'){
@@ -67,23 +71,34 @@ function Sales() {
   }
 
   const fetchOrdersByDate = (seldDate) =>{
+    setLoading(true);
     let cDate = moment(seldDate).format('YYYY-MM-DD');
     axios.get(process.env.REACT_APP_APIURL+'v1/sale-by-date/'+cDate)
     .then(res => {
+      setLoading(false);
       setOrderList(res.data.data);
+    }).catch(err =>{
+      setLoading(false);
+      console.log(err);
     });
   }
 
   const fetchOrdersByMenu = (menuid) =>{
+    setLoading(true);
     axios.get(process.env.REACT_APP_APIURL+'v1/sale-by-menu/'+menuid)
     .then(res => {
+      setLoading(false);
       setOrderList(res.data.data);
+    }).catch(err =>{
+      setLoading(false);
+      console.log(err);
     });
   }
 
   return (
     <div>
 
+        {loading && <Loader />}
         <Header />        
 
         <div className="Body">
@@ -156,6 +171,14 @@ function Sales() {
                   <th colSpan={3}>TOTAL</th>
                   <th>{totalAmount}</th>
                 </tr>}
+                {!orderList.length && <tr>
+                  <td colSpan={8}>
+                    <div className={`${styles.NoDataFound}`}>
+                      <AlertTriangle />
+                      <p>No data Found</p>
+                    </div>
+                  </td>
+                </tr>}
               </table>
             </div>}
 
@@ -188,6 +211,14 @@ function Sales() {
                 {totalAmount && <tr>
                   <th colSpan={3}>TOTAL</th>
                   <th>{totalAmount}</th>
+                </tr>}
+                {!orderList.length && <tr>
+                  <td colSpan={8}>
+                    <div className={`${styles.NoDataFound}`}>
+                      <AlertTriangle />
+                      <p>No data Found</p>
+                    </div>
+                  </td>
                 </tr>}
               </table>
             </div>}

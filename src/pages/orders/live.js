@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './liveorder.module.css';
-import { ArrowLeft } from 'react-feather';
+import { ArrowLeft,AlertTriangle } from 'react-feather';
 import axios from 'axios';
 import Header from "../../components/header";
+import Loader from "../../components/loader";
 import withAuth from "../../components/withAuth";
 import { Link } from "react-router-dom";
 import {  FormControlLabel, Checkbox } from '@material-ui/core';
@@ -11,6 +12,7 @@ import {  FormControlLabel, Checkbox } from '@material-ui/core';
 class LiveOrder extends React.Component {
 
   state = {
+    loading:false,
     itemList: [],
     orderList:[]
   }
@@ -41,17 +43,20 @@ class LiveOrder extends React.Component {
   }
 
   changeCookingStatus = (e,itemId)=>{
+    this.setState({...this.state,loading:true});
     let status = 0;
     if(e.target.checked){
       status = 1;
     }
     axios.put(process.env.REACT_APP_APIURL+'v1/orders/'+itemId,{status:status})
     .then(res => {
+      this.setState({...this.state,loading:false});
       console.log(res);
       clearInterval(this.interval2);
       this.fetchOrders();
       this.interval2 = setInterval(() => this.fetchOrders(), 5000);
     }).catch(err =>{
+      this.setState({...this.state,loading:false});
       console.log(err);
     });
   }
@@ -60,7 +65,8 @@ class LiveOrder extends React.Component {
     return(
       <div>
 
-        <Header />
+      {this.state.loading && <Loader />}
+      <Header />
 
         <div className="Body">
           <div className="Container">
@@ -121,6 +127,14 @@ class LiveOrder extends React.Component {
                   </td>
                 </tr>)
                 })}
+                {!this.state.orderList.length && <tr>
+                  <td colSpan={8}>
+                    <div className={`${styles.NoDataFound}`}>
+                      <AlertTriangle />
+                      <p>No data Found</p>
+                    </div>
+                  </td>
+                </tr>}
               </table>
             </div>
 

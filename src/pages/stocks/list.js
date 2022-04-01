@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react';
 import styles from './list.module.css';
-import { ArrowLeft, Plus } from 'react-feather';
+import { ArrowLeft, Plus,AlertTriangle } from 'react-feather';
 import axios from 'axios';
 import withAuth from "../../components/withAuth";
 import Header from "../../components/header";
@@ -77,6 +77,14 @@ function Stock() {
                   </tr>);
 
                 })}
+                {!itemList.data.length && <tr>
+                  <td colSpan={8}>
+                    <div className={`${styles.NoDataFound}`}>
+                      <AlertTriangle />
+                      <p>No data Found</p>
+                    </div>
+                  </td>
+                </tr>}
                 </tbody>
               </table>
             </div>

@@ -6,6 +6,7 @@ import { useForm,Controller } from "react-hook-form";
 import axios from 'axios';
 import Select from 'react-select';
 import Header from "../../components/header";
+import Loader from "../../components/loader";
 import withAuth from "../../components/withAuth";
 import { useHistory,Link,useParams } from "react-router-dom";
 
@@ -20,6 +21,7 @@ function EditUser() {
   const {id} = useParams();
   const { register, handleSubmit, formState: { errors },setValue,control } = useForm();
   const [userCall,setUserCall] = useState(false);
+  const [loading, setLoading] = React.useState(false);
   
 
   const [state, setState] = React.useState({
@@ -67,20 +69,24 @@ function EditUser() {
   });
 
   const onSubmit = data => {
+    setLoading(true);
     axios.put(process.env.REACT_APP_APIURL+'v1/users/'+id,data)
     .then(res => {
+      setLoading(false);
       let newState = state;
       setState({ ...newState, open: true });
       history.push('/users/list');
     }).catch(err =>{
+      setLoading(false);
       console.log(err);
     });
   };
 
   return (
     <div className="PageBody">
-
-        <Header />
+      
+      {loading && <Loader />}
+      <Header />
 
         <div className="Body">
           <div className="Container">

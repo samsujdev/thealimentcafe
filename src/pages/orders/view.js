@@ -6,6 +6,7 @@ import Header from "../../components/header";
 import withAuth from "../../components/withAuth";
 import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
+import Loader from "../../components/loader";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
 
@@ -13,6 +14,7 @@ import moment from 'moment';
 function ViewOrders() {
   const [orderList,setOrderList] = useState({'data':[],'loading':false});
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [loading, setLoading] = React.useState(false);
 
   useEffect(() => {
     if(!orderList.loading){
@@ -21,15 +23,18 @@ function ViewOrders() {
   });
 
   const fetchOrders = (seldDate) =>{
+    setLoading(true);
     let cDate = moment(seldDate).format('YYYY-MM-DD');
     let olist = orderList;
     olist = {...olist,'loading':true};
     setOrderList(olist);
     axios.get(process.env.REACT_APP_APIURL+'v1/orders/'+cDate)
     .then(res => {
+      setLoading(false);
       let olist = {'data':res.data.data,'loading':true};
       setOrderList(olist);
     }).catch(err =>{
+      setLoading(false);
       let olist = orderList;
       olist = {...olist,'loading':false};
       setOrderList(olist);
@@ -43,8 +48,9 @@ function ViewOrders() {
 
   return (
     <div>
-
-        <Header />
+      
+      {loading && <Loader />}
+      <Header />
 
         <div className="Body">
           <div className="Container">
@@ -75,7 +81,7 @@ function ViewOrders() {
                   <th>Status</th>
                 </tr>
                 {orderList.data.map((item,index)=>{
-                  return (<tr key={index} className={(item.status === 2)?`${styles.Delivered}`:((item.status === 1)?`${styles.Ready}`:`${styles.Cooking}`)}>
+                  return (<tr key={index} className={(parseInt(item.status) === 2)?`${styles.Delivered}`:((parseInt(item.status) === 1)?`${styles.Ready}`:`${styles.Cooking}`)}>
                   <td>
                     <p>{index+1}</p>
                   </td>
@@ -104,20 +110,22 @@ function ViewOrders() {
                     <p>{item.totalamount}</p>
                   </td>
                   <td>
-                  {item.status === 0 && <p>Cooking</p>}
-                  {item.status === 1 && <p>Ready</p>}
-                  {item.status === 2 && <p>Delivered</p>}
+                  {parseInt(item.status) === 0 && <p>Cooking</p>}
+                  {parseInt(item.status) === 1 && <p>Ready</p>}
+                  {parseInt(item.status) === 2 && <p>Delivered</p>}
                   </td>
                 </tr>)
                 })}
-                <tr>
+
+                {!orderList.data.length && <tr>
                   <td colSpan={8}>
                     <div className={`${styles.NoDataFound}`}>
                       <AlertTriangle />
                       <p>No data Found</p>
                     </div>
                   </td>
-                </tr>
+                </tr>}
+                
                 </tbody>
               </table>
             </div>

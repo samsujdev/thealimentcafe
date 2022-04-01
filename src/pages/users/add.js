@@ -6,6 +6,7 @@ import { useForm ,Controller} from "react-hook-form";
 import axios from 'axios';
 import Select from 'react-select';
 import Header from "../../components/header";
+import Loader from "../../components/loader";
 import withAuth from "../../components/withAuth";
 import { useHistory,Link } from "react-router-dom";
 
@@ -19,6 +20,7 @@ const postList = [
 function AddUser() {
   let history = useHistory();
   const { register, handleSubmit, formState: { errors },control } = useForm();
+  const [loading, setLoading] = React.useState(false);
   
 
   const [state, setState] = React.useState({
@@ -34,12 +36,15 @@ function AddUser() {
   };
 
   const onSubmit = data => {
+    setLoading(true);
     axios.post(process.env.REACT_APP_APIURL+'v1/users',data)
     .then(res => {
+      setLoading(false);
       let newState = state;
       setState({ ...newState, open: true });
       history.push('/users/list');
     }).catch(err =>{
+      setLoading(false);
       console.log(err);
     });
   };
@@ -47,6 +52,7 @@ function AddUser() {
   return (
     <div className="PageBody">
 
+        {loading && <Loader />}
         <Header />
 
         <div className="Body">

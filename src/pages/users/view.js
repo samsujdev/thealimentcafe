@@ -78,7 +78,7 @@ function ViewUsers() {
 
               <Link className={`${styles.UserList}`}>
                 <Disc/>
-                <p className={`${styles.UserListTitle}`}>{userDet?.other}</p>
+                <p className={`${styles.UserListTitle}`}>{(userDet?.other)?userDet?.other:'N/A'}</p>
               </Link>
 
               {/*<Link className={`${styles.UserList}`}>
