@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react';
 import styles from './view.module.css';
-import { ArrowLeft } from 'react-feather';
+import { ArrowLeft, Calendar, AlertTriangle } from 'react-feather';
 import axios from 'axios';
 import Header from "../../components/header";
 import withAuth from "../../components/withAuth";
@@ -50,9 +50,15 @@ function ViewOrders() {
           <div className="Container">
 
             <div className={`${styles.BodyHeadArea}`}>
-              <Link to="/dashboard" className={`${styles.BackBU}`}><ArrowLeft/></Link>
               <p className={`${styles.ViewUserTitle}`}>View Order</p>
-              <DatePicker selected={selectedDate} onChange={changeDate} />
+            </div>
+
+            <div className={`${styles.BodyHeadArea}`}>
+              <Link to="/dashboard" className={`${styles.BackBU}`}><ArrowLeft/></Link>
+              <div className={`${styles.ReactDatePicker}`}>
+                <DatePicker className='ReactDatePicker' selected={selectedDate} onChange={changeDate} />
+                <Calendar/>
+              </div>
             </div>
 
             <div className={`${styles.TableContainer}`}>
@@ -104,6 +110,14 @@ function ViewOrders() {
                   </td>
                 </tr>)
                 })}
+                <tr>
+                  <td colSpan={8}>
+                    <div className={`${styles.NoDataFound}`}>
+                      <AlertTriangle />
+                      <p>No data Found</p>
+                    </div>
+                  </td>
+                </tr>
                 </tbody>
               </table>
             </div>

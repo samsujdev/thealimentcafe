@@ -125,7 +125,7 @@ function AddItem() {
             {itemList.data.map((item,index)=>{
               return (<div key={index} className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <TextField id={"outlined-basic"+index} label="Item Name" defaultValue={item.item_name} variant="outlined" size="small" className='LoginInput' onChange={(e)=>itemNameChage(e,index)} />                
+                <TextField id={"outlined-basic"+index} label="Item Name" defaultValue={item.item_name} variant="outlined" size="small" className='LoginInput' onChange={(e)=>itemNameChage(e,index)} autoComplete="off" />                
               </div>
               <Button onClick={editItem.bind(this,item.id,index)} className={`${styles.AddEditBU}`}><Plus/> Edit</Button>
             </div>)
@@ -133,7 +133,7 @@ function AddItem() {
 
             <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <TextField id="outlined-basic" label="Item Name" variant="outlined" size="small" className='LoginInput' value={addData} onChange={evt => setAddData(evt.target.value)} />                
+                <TextField id="outlined-basic" label="Item Name" variant="outlined" size="small" className='LoginInput' value={addData} onChange={evt => setAddData(evt.target.value)} autoComplete="off" />                
               </div>
               <Button onClick={addItem} className={`${styles.AddEditBU}`}><Plus/> Add</Button>
             </div>

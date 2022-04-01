@@ -48,7 +48,7 @@
 
 .LoginInput {
 	width: 100%;
-	padding: 15px 0;
+	padding: 12px 0;
 }
 
 .InputArea {
@@ -56,4 +56,12 @@
     display: flex;
     flex-wrap: wrap;
     position: relative;
+}
+
+.FormLabel {
+    font-size: 14px;
+    line-height: 30px;
+    font-weight: 400;
+    color: #fff;
+    margin: 0;
 }

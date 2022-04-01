@@ -95,22 +95,25 @@ function EditUser() {
 
             <div className={(errors.fullname)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <TextField id="outlined-basic1" label="Name" variant="outlined" size="small" className='LoginInput' {...register("fullname", { required: true })} />
+                <label className={`${styles.FormLabel}`}>Name *</label>
+                <TextField id="outlined-basic1" variant="outlined" size="small" className='LoginInput' {...register("fullname", { required: true })} autoComplete="off" />
                 {errors.fullname && <p className="LoginErrorText">Name Can&apos;t Be Blank</p>}
                 </div>
             </div>
 
             <div className={(errors.emplyee_id)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <TextField id="outlined-basic2" label="Employee ID" variant="outlined" size="small" autoComplete='off' className='LoginInput'  {...register("emplyee_id", { required: true })} />
+                <label className={`${styles.FormLabel}`}>Employee ID *</label>
+                <TextField id="outlined-basic2" variant="outlined" size="small" className='LoginInput'  {...register("emplyee_id", { required: true })} autoComplete="off" />
                 {errors.emplyee_id && <p className="LoginErrorText">Employee ID Can&apos;t Be Blank</p>}
               </div>
             </div>
 
             <div className={(errors.post)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
+              <label className={`${styles.FormLabel}`}>Post *</label>
               <Controller
-                render={({ field }) => <Select {...field} id="outlined-basi99c" label="Post" variant="outlined" size="small" className='LoginInput' options={postList}
+                render={({ field }) => <Select {...field} id="outlined-basi99c" label="Post" variant="outlined" size="small" className='LoginInput SelectForm' options={postList}
                 value={postList.find(c => c.value === field.value)} onChange={val => field.onChange(val.value)} />  } {...register("post", { required: true })} control={control}
               />
                 {errors.post && <p className="LoginErrorText">Post Can&apos;t Be Blank</p>}
@@ -119,21 +122,24 @@ function EditUser() {
 
             <div className={(errors.contact_no)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <TextField type="tel" id="outlined-basic4" label="Contact No." variant="outlined" size="small" className='LoginInput'  {...register("contact_no", { required: true })} />
+                <label className={`${styles.FormLabel}`}>Contact No. *</label>
+                <TextField type="tel" id="outlined-basic4" variant="outlined" size="small" className='LoginInput'  {...register("contact_no", { required: true })} autoComplete="off" />
                 {errors.contact_no && <p className="LoginErrorText">Contact Number Can&apos;t Be Blank</p>}
               </div>
             </div>
 
             <div className={(errors.email)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <TextField type="email" id="outlined-basic5" label="Email" variant="outlined" size="small" className='LoginInput' {...register("email", { required: true })} />
+                <label className={`${styles.FormLabel}`}>Email ID *</label>
+                <TextField type="email" id="outlined-basic5" variant="outlined" size="small" className='LoginInput' {...register("email", { required: true })} autoComplete="off" />
                 {errors.email && <p className="LoginErrorText">Email Can&apos;t Be Blank</p>}
               </div>
             </div>
 
             <div className={(errors.area)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <TextField id="outlined-basic6" label="Area" variant="outlined" size="small" className='LoginInput' {...register("area", { required: true })} />
+                <label className={`${styles.FormLabel}`}>Area *</label>
+                <TextField id="outlined-basic6" variant="outlined" size="small" className='LoginInput' {...register("area", { required: true })} autoComplete="off" />
                 {errors.area && <p className="LoginErrorText">Area Can&apos;t Be Blank</p>}
               </div>
             </div>
@@ -141,14 +147,16 @@ function EditUser() {
             {/* ************************Not maindate field************************ */}
             <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <TextField id="outlined-basic7" label="Other" variant="outlined" size="small" className='LoginInput'  {...register("other")} />
+                <label className={`${styles.FormLabel}`}>Other</label>
+                <TextField id="outlined-basic7" variant="outlined" size="small" className='LoginInput'  {...register("other")} autoComplete="off" />
               </div>
             </div>
             {/* ************************Not maindate field************************ */}
 {/*
             <div className={(errors.password)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <TextField type="password" id="outlined-basic8" label="Password" variant="outlined" size="small" className='LoginInput'  {...register("password", { required: true })} />
+                <label className={`${styles.FormLabel}`}>Password *</label>
+                <TextField type="password" id="outlined-basic8" variant="outlined" size="small" className='LoginInput'  {...register("password", { required: true })} autoComplete="off" />
                 {errors.password && <p className="LoginErrorText">Password Can't Be Blank</p>}
               </div>
             </div>

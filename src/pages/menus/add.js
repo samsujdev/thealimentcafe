@@ -70,7 +70,7 @@ function CeateMenu() {
 
             <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <TextField id="outlined-basic" label="Menu Name" variant="outlined" size="small" className='LoginInput'  {...register("menu_name")} />             
+                <TextField id="outlined-basic" label="Menu Name" variant="outlined" size="small" className='LoginInput'  {...register("menu_name")} autoComplete="off" />             
               </div>
             </div>
 

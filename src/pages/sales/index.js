@@ -1,35 +1,96 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import styles from './sales.module.css';
-import { Link, InputLabel, MenuItem, FormControl, Select, TextField } from '@material-ui/core';
+import { InputLabel, MenuItem, FormControl, Select, TextField } from '@material-ui/core';
 import { ArrowLeft } from 'react-feather';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Header from "../../components/header";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment';
+import axios from 'axios';
+import withAuth from "../../components/withAuth";
+import { Link } from "react-router-dom";
 
-const menuList = [
-  { title: 'Reshmi Kebab' },
-  { title: 'Tikka Kebab' },
-  { title: 'Hariyali Kebab' },
-  { title: 'Boti Kebab' },
-  { title: 'Peshwari Tangdi' }
-];
+function Sales() {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [filteBy, setFilterBy] = useState('');
+  const [orderList,setOrderList] = useState([]);
+  const [menuList,setMenuList] = useState([{'data':[],'loading':false}]);
+  let totalAmount = 0;
 
-export default function Sales() {
+  useEffect(() => {
+    
+    function fetchMenus(){
+      let ilist = menuList;
+      ilist = {...ilist,'loading':true};
+      setMenuList(ilist);
+      axios.get(process.env.REACT_APP_APIURL+'v1/menus')
+      .then(res => {
+        let itemList = res.data.data.map((item)=>{
+          return {'value':item.id,'label':item.menu_name,'price':item.amount};
+        });
 
-  const [filteBy, filterBy] = React.useState('');
+        let ilist = {'data': itemList,'loading':true};
+        setMenuList(ilist);
+
+      }).catch(err =>{
+        let ilist = menuList;
+        ilist = {...ilist,'loading':false};
+        setMenuList(ilist);
+      });
+    }
+
+    if(!menuList.loading){
+      fetchMenus();
+    }
+
+  });
 
   const handleChange = (event) => {
-    filterBy(event.target.value);
+    totalAmount = 0;
+    setFilterBy(event.target.value);
+    if(event.target.value === 'date'){
+      fetchOrdersByDate(selectedDate);
+    }
   };
+
+  const chnageMenu = (e,option)=>{
+    if(option){
+      fetchOrdersByMenu(option.value);
+    }
+  }
+
+  const changeDate = (date) =>{
+    totalAmount = 0;
+    setSelectedDate(date);
+    fetchOrdersByDate(date);
+  }
+
+  const fetchOrdersByDate = (seldDate) =>{
+    let cDate = moment(seldDate).format('YYYY-MM-DD');
+    axios.get(process.env.REACT_APP_APIURL+'v1/sale-by-date/'+cDate)
+    .then(res => {
+      setOrderList(res.data.data);
+    });
+  }
+
+  const fetchOrdersByMenu = (menuid) =>{
+    axios.get(process.env.REACT_APP_APIURL+'v1/sale-by-menu/'+menuid)
+    .then(res => {
+      setOrderList(res.data.data);
+    });
+  }
 
   return (
     <div>
 
-        
+        <Header />        
 
         <div className="Body">
           <div className="Container">
 
             <div className={`${styles.BodyHeadArea}`}>
-              <Link href="/home" className={`${styles.BackBU}`}><ArrowLeft/></Link>
+              <Link to="/dashboard" className={`${styles.BackBU}`}><ArrowLeft/></Link>
               <p className={`${styles.ViewUserTitle}`}>Sales</p>
             </div>
 
@@ -49,17 +110,21 @@ export default function Sales() {
                   </Select>
                 </FormControl>
               </div>
-              <div className={`${styles.SalesDropDownDiv}`}>
+              {(filteBy === 'menu') && <div className={`${styles.SalesDropDownDiv}`}>
                 <Autocomplete className="LoginInput"
                   id="combo-box-demo"
-                  options={menuList}
-                  getOptionLabel={(option) => option.title}
+                  options={menuList.data}
+                  getOptionLabel={(option) => option.label}
                   renderInput={(params) => <TextField {...params} label="Choose" variant="outlined" />}
+                  onChange={chnageMenu}
                 />
-              </div>
+              </div>}
+              {(filteBy === 'date') && <div className={`${styles.SalesDropDownDiv}`}>
+                <DatePicker selected={selectedDate} onChange={changeDate} />
+              </div>}
             </div>
 
-            <div className={`${styles.TableContainer}`}>
+            {(filteBy === 'date') && <div className={`${styles.TableContainer}`}>
               <table>
                 <tr>
                   <th>S.N.</th>
@@ -67,43 +132,32 @@ export default function Sales() {
                   <th>Qnt</th>
                   <th>Value</th>
                 </tr>
-                <tr>
-                  <td>
-                    <p>01</p>
-                  </td>
-                  <td>
-                    <p>Reshmi Kebab</p>
-                  </td>
-                  <td>
-                    <p>20</p>
-                  </td>
-                  <td>
-                    <p>1400</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <p>02</p>
-                  </td>
-                  <td>
-                    <p>Hariyali Kebab</p>
-                  </td>
-                  <td>
-                    <p>10</p>
-                  </td>
-                  <td>
-                    <p>700</p>
-                  </td>
-                </tr>
-                <tr>
+                {orderList.map((item,index)=>{
+                  totalAmount = totalAmount+(item.amount*item.quantity);
+                  return (<tr>
+                    <td>
+                      <p>{index+1}</p>
+                    </td>
+                    <td>
+                      <p>{item.menu_name}</p>
+                    </td>
+                    <td>
+                      <p>{item.quantity}</p>
+                    </td>
+                    <td>
+                      <p>{item.amount*item.quantity}</p>
+                    </td>
+                  </tr>)
+                })}
+                {totalAmount && <tr>
                   <th colSpan={3}>TOTAL</th>
-                  <th>2100</th>
-                </tr>
+                  <th>{totalAmount}</th>
+                </tr>}
               </table>
-            </div>
+            </div>}
 
             {/* *******************When user select filter by date******************** */}
-            <div className={`${styles.TableContainer}`}>
+            {(filteBy === 'menu') && <div className={`${styles.TableContainer}`}>
               <table>
                 <tr>
                   <th>S.N.</th>
@@ -111,40 +165,29 @@ export default function Sales() {
                   <th>Qnt</th>
                   <th>Value</th>
                 </tr>
-                <tr>
+                {orderList.map((item,index)=>{
+                  totalAmount = totalAmount+(item.amount*item.quantity);
+                  return (<tr>
                   <td>
-                    <p>01</p>
+                    <p>{index+1}</p>
                   </td>
                   <td>
-                    <p>10/03/2022</p>
+                    <p>{item.order_date}</p>
                   </td>
                   <td>
-                    <p>20</p>
+                    <p>{item.quantity}</p>
                   </td>
                   <td>
-                    <p>1400</p>
+                    <p>{item.amount*item.quantity}</p>
                   </td>
-                </tr>
-                <tr>
-                  <td>
-                    <p>02</p>
-                  </td>
-                  <td>
-                    <p>11/03/2022</p>
-                  </td>
-                  <td>
-                    <p>10</p>
-                  </td>
-                  <td>
-                    <p>700</p>
-                  </td>
-                </tr>
-                <tr>
+                </tr>)
+                })}
+                {totalAmount && <tr>
                   <th colSpan={3}>TOTAL</th>
-                  <th>2100</th>
-                </tr>
+                  <th>{totalAmount}</th>
+                </tr>}
               </table>
-            </div>
+            </div>}
             {/* *******************When user select filter by date******************** */}
 
           </div>
@@ -153,3 +196,5 @@ export default function Sales() {
     </div>
   )
 }
+
+export default withAuth(Sales);

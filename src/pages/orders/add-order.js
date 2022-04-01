@@ -122,7 +122,7 @@ function AddOrder() {
 
             <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <TextField id="outlined-basic" label="Name" variant="outlined" size="small" className='LoginInput'  {...register("name")} />             
+                <TextField id="outlined-basic" label="Name" variant="outlined" size="small" className='LoginInput'  {...register("name")} autoComplete="off" />             
               </div>
             </div>
 

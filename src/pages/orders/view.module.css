@@ -1,5 +1,7 @@
 .BodyHeadArea {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     margin: 0 0 25px 0;
 }
@@ -108,4 +110,39 @@
 
 .Delivered td:last-child p {
     color: rgba(9, 154, 11, 1);
+}
+
+.ReactDatePicker {
+    position: relative;
+}
+
+.ReactDatePicker svg {
+    position: absolute;
+    width: 18px;
+    color: #c9c9c9;
+    top: 6px;
+    right: 12px;
+    z-index: -1;
+}
+
+.NoDataFound {
+    text-align: center;
+    padding: 50px 0;
+}
+
+.NoDataFound svg {
+    width: 50px;
+    height: auto;
+    stroke-width: 1;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.NoDataFound p {
+    color: #888888;
+    font-size: 18px;
+    font-weight: 300;
+    text-align: center;
+    margin: 0;
+    white-space: nowrap;
 }
