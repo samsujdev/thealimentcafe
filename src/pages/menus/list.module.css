@@ -58,8 +58,12 @@
     padding: 8px 5px;
     border-bottom: 1px solid #2a2a3e;
     background: #242438;
-    text-align: center;
+    text-align: left;
     white-space: nowrap;
+}
+
+.TableContainer table tr th:nth-child(1) {
+    padding-left: 10px;
 }
 
 .TableContainer table tr th:nth-child(2) {
@@ -80,12 +84,16 @@
     color: #e1e1e1;
     font-size: 13px;
     font-weight: 300;
-    text-align: center;
+    text-align: left;
     margin: 0;
     white-space: nowrap;
     /* width: 100%;
     overflow: hidden;
     text-overflow: ellipsis; */
+}
+
+.TableContainer table tr td:nth-child(1) p {
+    padding-left: 10px;
 }
 
 .TableContainer table tr:last-child td {
@@ -118,4 +126,26 @@
 .HomeMenuBU svg {
     width: 18px;
     margin-right: 10px;
+}
+
+.NoDataFound {
+    text-align: center;
+    padding: 50px 0;
+}
+
+.NoDataFound svg {
+    width: 50px;
+    height: auto;
+    stroke-width: 1;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.NoDataFound p {
+    color: #888888 !important;
+    font-size: 18px !important;
+    font-weight: 300 !important;
+    text-align: center !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
 }

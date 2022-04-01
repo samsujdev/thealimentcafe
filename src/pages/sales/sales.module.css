@@ -58,8 +58,12 @@
     padding: 8px 5px;
     border-bottom: 1px solid #2a2a3e;
     background: #242438;
-    text-align: center;
+    text-align: left;
     white-space: nowrap;
+}
+
+.TableContainer table tr th:nth-child(1) {
+    padding-left: 10px;
 }
 
 .TableContainer table tr th:nth-child(2) {
@@ -80,7 +84,7 @@
     color: #e1e1e1;
     font-size: 13px;
     font-weight: 300;
-    text-align: center;
+    text-align: left;
     margin: 0;
     white-space: nowrap;
     /* width: 100%;
@@ -88,9 +92,13 @@
     text-overflow: ellipsis; */
 }
 
+.TableContainer table tr td:nth-child(1) p {
+    padding-left: 10px;
+}
+
 .TableContainer table tr td:nth-child(2) p {
-    width: 120px;
-    margin: auto;
+    width: 180px;
+    margin: 0;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -161,12 +169,12 @@
 }
 
 .NoDataFound p {
-    color: #888888;
-    font-size: 18px;
-    font-weight: 300;
-    text-align: center;
-    margin: 0;
-    white-space: nowrap;
+    color: #888888 !important;
+    font-size: 18px !important;
+    font-weight: 300 !important;
+    text-align: center !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
 }
 
 @media (min-width: 360px) {

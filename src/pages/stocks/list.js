@@ -54,7 +54,7 @@ function Stock() {
               <table>
                 <tbody>
                 <tr>
-                  <th colSpan={3}>Live Stocks</th>
+                  <th colSpan={3} className={`${styles.TextCenter}`}>Live Stocks</th>
                 </tr>
                 <tr>
                   <th>S.N.</th>
