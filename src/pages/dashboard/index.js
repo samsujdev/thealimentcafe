@@ -28,7 +28,7 @@ function Home() {
               
               {(userDetArr.post === 'Admin' || userDetArr.post === 'Store Manager') && <Link to="/stocks/stock-update" className={`${styles.HomeMenuBU}`}>STOCK UPDATE</Link>}
               {(userDetArr.post === 'Admin' || userDetArr.post === 'Store Manager') && <Link to="/orders/list" className={`${styles.HomeMenuBU}`}>TAKE ORDER</Link>}
-              {(userDetArr.post === 'Admin' || userDetArr.post === 'Cook') && <Link to="/orders/live" className={`${styles.HomeMenuBULive}`}>GO LIVE</Link>}
+              {(userDetArr.post === 'Admin' || userDetArr.post === 'Store Manager' || userDetArr.post === 'Cook') && <Link to="/orders/live" className={`${styles.HomeMenuBULive}`}>GO LIVE</Link>}
 
             </div>
           </div>
