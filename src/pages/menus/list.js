@@ -57,8 +57,8 @@ function MenuList() {
                   <th>S.N.</th>
                   <th>Menu</th>
                   <th>Items</th>
-                  <th>Units</th>
-                  <th>Value</th>
+                  <th className='TextCenter'>Units</th>
+                  <th className='TextCenter'>Value</th>
                 </tr>
 
                 {menuList.data.map((item,index)=>{
@@ -76,11 +76,11 @@ function MenuList() {
                     </td>
                     <td>
                     {item.items.map((subItem,subIndex)=>{
-                        return <p key={subIndex}>{subItem.unit}</p>
+                        return <p className='TextCenter' key={subIndex}>{subItem.unit}</p>
                       })}
                       </td>
                     <td>
-                      <p>{item.amount}</p>
+                      <p className='TextCenter'>{item.amount}</p>
                     </td>
                   </tr>);
                 })}

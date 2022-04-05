@@ -91,8 +91,8 @@ class LiveOrder extends React.Component {
                   <th>S.N.</th>
                   <th>Name</th>
                   <th>Order</th>
-                  <th>Qnt</th>
-                  <th>Status</th>
+                  <th className='TextCenter'>Qnt</th>
+                  <th className='TextCenter'>Status</th>
                 </tr>
                 {this.state.orderList.map((item,index)=>{
                   return (<tr key={index} className={(parseInt(item.status) === 2)?`${styles.Delivered}`:((parseInt(item.status) === 1)?`${styles.Ready}`:`${styles.Cooking}`)}>
@@ -109,11 +109,11 @@ class LiveOrder extends React.Component {
                   </td>
                   <td>
                   {item.items.map((subItem,subIndex)=>{
-                    return (<p key={subIndex}>{subItem.quantity}</p>)
+                    return (<p className='TextCenter' key={subIndex}>{subItem.quantity}</p>)
                   })}
                   </td>
                   <td>
-                  {parseInt(item.status) === 0 && <p><FormControlLabel
+                  {parseInt(item.status) === 0 && <p className='TextCenter'><FormControlLabel
                         control={
                           <Checkbox
                             onChange={(e)=>this.changeCookingStatus(e,item.id)}
@@ -122,13 +122,13 @@ class LiveOrder extends React.Component {
                           />
                         }
                       />Cooking</p>}
-                  {parseInt(item.status) === 1 && <p>Ready</p>}
-                  {parseInt(item.status) === 2 && <p>Delivered</p>}
+                  {parseInt(item.status) === 1 && <p className='TextCenter'>Ready</p>}
+                  {parseInt(item.status) === 2 && <p className='TextCenter'>Delivered</p>}
                   </td>
                 </tr>)
                 })}
                 {!this.state.orderList.length && <tr>
-                  <td colSpan={8}>
+                  <td colSpan={12}>
                     <div className={`${styles.NoDataFound}`}>
                       <AlertTriangle />
                       <p>No data Found</p>

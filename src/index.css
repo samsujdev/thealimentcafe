@@ -380,3 +380,7 @@ form {
     margin: 20px;
     display:inline-block;
 }
+
+.TextCenter {
+  text-align: center !important;
+}

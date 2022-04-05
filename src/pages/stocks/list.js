@@ -54,17 +54,18 @@ function Stock() {
               <table>
                 <tbody>
                 <tr>
-                  <th colSpan={3} className={`${styles.TextCenter}`}>Live Stocks</th>
+                  <th colSpan={4} className={`${styles.TextCenter}`}>Live Stocks</th>
                 </tr>
                 <tr>
                   <th>S.N.</th>
                   <th>Items</th>
-                  <th>Units</th>
+                  <th className='TextCenter'>Units</th>
+                  <th className='TextCenter'>Emp.</th>
                 </tr>
 
                 {itemList.data.map((item,index)=>{
 
-                  return (<tr key={index}>
+                  return (<tr key={index} className={`${styles.StockOut}`}>
                     <td>
                       <p>{(index+1)}</p>
                     </td>
@@ -72,7 +73,10 @@ function Stock() {
                       <p>{item.item_name}</p>
                     </td>
                     <td>
-                      <p>{item.live_stock}</p>
+                      <p className='TextCenter'>{item.live_stock}</p>
+                    </td>
+                    <td>
+                      <p className='TextCenter'>TAC001</p>
                     </td>
                   </tr>);
 

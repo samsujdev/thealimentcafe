@@ -115,12 +115,12 @@ class Order extends React.Component {
                   <th>S.N.</th>
                   <th>Name</th>
                   <th>Order</th>
-                  <th>Qnt</th>
-                  <th>Price</th>
-                  <th>Offer</th>
-                  <th>Total</th>
-                  <th>Payment</th>
-                  <th>Status</th>
+                  <th className='TextCenter'>Qnt</th>
+                  <th className='TextCenter'>Price</th>
+                  <th className='TextCenter'>Offer</th>
+                  <th className='TextCenter'>Total</th>
+                  <th className='TextCenter'>Payment</th>
+                  <th className='TextCenter'>Status</th>
                 </tr>
                 
                 {this.state.orderList.map((item,index)=>{
@@ -138,23 +138,23 @@ class Order extends React.Component {
                   </td>
                   <td>
                   {item.items.map((subItem,subIndex)=>{
-                    return (<p key={subIndex}>{subItem.quantity}</p>)
+                    return (<p className='TextCenter' key={subIndex}>{subItem.quantity}</p>)
                   })}
                   </td>
                   <td>
                   {item.items.map((subItem,subIndex)=>{
-                    return (<p key={subIndex}>{subItem.price}</p>)
+                    return (<p className='TextCenter' key={subIndex}>{subItem.price}</p>)
                   })}
                   </td>
                   <td>
-                    <p>{item.offer}%</p>
+                    <p className='TextCenter'>{item.offer}%</p>
                     </td>
                   <td>
-                    <p>{item.totalamount}</p>
+                    <p className='TextCenter'>{item.totalamount}</p>
                   </td>
                   <td>
-                    {parseInt(item.is_paid) === 1 && <p className={`${styles.Paid}`}>Paid</p>}
-                    {parseInt(item.is_paid) === 0 && <p>
+                    {parseInt(item.is_paid) === 1 && <p className={`${styles.Paid} TextCenter`}>Paid</p>}
+                    {parseInt(item.is_paid) === 0 && <p className='TextCenter'>
                       <FormControlLabel
                         control={
                           <Checkbox
@@ -167,9 +167,9 @@ class Order extends React.Component {
                     </p>}
                   </td>
                   <td>
-                  {parseInt(item.status) === 0 && <p>Cooking</p>}
-                  {(parseInt(item.status) === 1 && parseInt(item.is_paid) === 0) && <p>Ready</p>}
-                  {(parseInt(item.status) === 1 && parseInt(item.is_paid) === 1) && <p><FormControlLabel
+                  {parseInt(item.status) === 0 && <p className='TextCenter'>Cooking</p>}
+                  {(parseInt(item.status) === 1 && parseInt(item.is_paid) === 0) && <p className='TextCenter'>Ready</p>}
+                  {(parseInt(item.status) === 1 && parseInt(item.is_paid) === 1) && <p className='TextCenter'><FormControlLabel
                         control={
                           <Checkbox
                             onChange={(e)=>this.setDelivered(e,item.id)}
@@ -178,13 +178,13 @@ class Order extends React.Component {
                           />
                         }
                       /> Ready</p>}
-                  {parseInt(item.status) === 2 && <p>Delivered</p>}
+                  {parseInt(item.status) === 2 && <p className='TextCenter'>Delivered</p>}
                   </td>
                 </tr>)
                 })}
                 
                 {!this.state.orderList.length && <tr>
-                  <td colSpan={8}>
+                  <td colSpan={12}>
                     <div className={`${styles.NoDataFound}`}>
                       <AlertTriangle />
                       <p>No data Found</p>

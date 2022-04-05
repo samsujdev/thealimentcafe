@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react';
 import styles from './view.module.css';
-import { ArrowLeft, Calendar, AlertTriangle } from 'react-feather';
+import { ArrowLeft, Calendar, AlertTriangle, X } from 'react-feather';
 import axios from 'axios';
 import Header from "../../components/header";
 import withAuth from "../../components/withAuth";
@@ -9,6 +9,7 @@ import DatePicker from "react-datepicker";
 import Loader from "../../components/loader";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 
 
 function ViewOrders() {
@@ -46,6 +47,14 @@ function ViewOrders() {
     fetchOrders(date);
   }
 
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div>
       
@@ -74,14 +83,16 @@ function ViewOrders() {
                   <th>S.N.</th>
                   <th>Name</th>
                   <th>Order</th>
-                  <th>Qnt</th>
-                  <th>Price</th>
-                  <th>Offer</th>
-                  <th>Total</th>
-                  <th>Status</th>
+                  <th className='TextCenter'>Qnt</th>
+                  <th className='TextCenter'>Price</th>
+                  <th className='TextCenter'>Offer</th>
+                  <th className='TextCenter'>Total</th>
+                  <th className='TextCenter'>Status</th>
+                  <th className='TextCenter'>Emp.</th>
+                  <th className='TextCenter'>Cancel</th>
                 </tr>
                 {orderList.data.map((item,index)=>{
-                  return (<tr key={index} className={(parseInt(item.status) === 2)?`${styles.Delivered}`:((parseInt(item.status) === 1)?`${styles.Ready}`:`${styles.Cooking}`)}>
+                  return (<tr>
                   <td>
                     <p>{index+1}</p>
                   </td>
@@ -95,30 +106,39 @@ function ViewOrders() {
                   </td>
                   <td>
                   {item.items.map((subItem,subIndex)=>{
-                    return (<p key={subIndex}>{subItem.quantity}</p>)
+                    return (<p className='TextCenter' key={subIndex}>{subItem.quantity}</p>)
                   })}
                   </td>
                   <td>
                   {item.items.map((subItem,subIndex)=>{
-                    return (<p key={subIndex}>{subItem.price}</p>)
+                    return (<p className='TextCenter' key={subIndex}>{subItem.price}</p>)
                   })}
                   </td>
                   <td>
-                    <p>{item.offer}%</p>
+                    <p className='TextCenter'>{item.offer}%</p>
                     </td>
                   <td>
-                    <p>{item.totalamount}</p>
+                    <p className='TextCenter'>{item.totalamount}</p>
+                  </td>
+                  <td key={index} className={(parseInt(item.status) === 2)?`${styles.Delivered}`:((parseInt(item.status) === 1)?`${styles.Ready}`:`${styles.Cooking}`)}>
+                  {parseInt(item.status) === 0 && <p className='TextCenter'>Cooking</p>}
+                  {parseInt(item.status) === 1 && <p className='TextCenter'>Ready</p>}
+                  {parseInt(item.status) === 2 && <p className='TextCenter'>Delivered</p>}
                   </td>
                   <td>
-                  {parseInt(item.status) === 0 && <p>Cooking</p>}
-                  {parseInt(item.status) === 1 && <p>Ready</p>}
-                  {parseInt(item.status) === 2 && <p>Delivered</p>}
+                    <p className='TextCenter'>TAC001</p>
+                  </td>
+                  <td>
+                    <p className='TextCenter'>
+                      <Button onClick={handleClickOpen} className={`${styles.CancelBU}`}><X/></Button>
+                      {/* NA */}
+                    </p>
                   </td>
                 </tr>)
                 })}
 
                 {!orderList.data.length && <tr>
-                  <td colSpan={8}>
+                  <td colSpan={10}>
                     <div className={`${styles.NoDataFound}`}>
                       <AlertTriangle />
                       <p>No data Found</p>
@@ -132,6 +152,25 @@ function ViewOrders() {
 
           </div>
         </div>
+
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          
+        >
+          <DialogTitle>
+            Cancel Order
+          </DialogTitle>
+          <DialogContent>
+            Are you want to delete this order?
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>No</Button>
+            <Button onClick={handleClose} autoFocus>
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
 
     </div>
   )

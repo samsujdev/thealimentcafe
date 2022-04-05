@@ -51,7 +51,7 @@
 }
 
 .TableContainer table tr th {
-    min-width: 60px;
+    min-width: 52px;
     color: #fff;
     font-size: 15px;
     font-weight: 400;
@@ -63,7 +63,7 @@
 }
 
 .TableContainer table tr th:nth-child(1) {
-    padding-left: 10px;
+    padding-left: 8px;
 }
 
 .TableContainer table tr th:nth-child(2) {
@@ -77,7 +77,7 @@
 .TableContainer table tr td {
     padding: 8px 5px;
     border-bottom: 1px solid #2a2a3e;
-    min-width: 60px;
+    min-width: 52px;
 }
 
 .TableContainer table tr td:nth-child(2) {
@@ -101,23 +101,23 @@
 }
 
 .TableContainer table tr td:nth-child(1) p {
-    padding-left: 10px;
+    padding-left: 8px;
 }
 
 .TableContainer table tr:last-child td {
     border-bottom: none;
 }
 
-.Ready td:last-child p {
-    color: rgba(238, 168, 37, 1);
+.Ready p {
+    color: rgba(238, 168, 37, 1) !important;
 }
 
-.Cooking td:last-child p {
-    color: rgba(255, 0, 0, 1);
+.Cooking p {
+    color: rgba(255, 0, 0, 1) !important;
 }
 
-.Delivered td:last-child p {
-    color: rgba(9, 154, 11, 1);
+.Delivered p {
+    color: rgba(9, 154, 11, 1) !important;
 }
 
 .ReactDatePicker {
@@ -153,4 +153,20 @@
     text-align: center !important;
     margin: 0 !important;
     white-space: nowrap !important;
+}
+
+.CancelBU {
+    padding: 0px 4px !important;
+    background-color: #f00 !important;
+    color: #fff !important;
+    width: 46px;
+    min-width: 0 !important;
+}
+
+.CancelBU:hover {
+    background: rgb(165, 2, 2) !important;
+}
+
+.CancelBU svg {
+    width: 18px;
 }

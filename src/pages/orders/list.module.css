@@ -96,7 +96,7 @@
     text-align: left;
     margin: 0;
     white-space: nowrap;
-    display: flex;
+    /* display: flex; */
     align-items: center;
     /* justify-content: center; */
     /* width: 100%;
@@ -206,5 +206,5 @@ td p.Paid {
     text-align: center !important;
     margin: 0 !important;
     white-space: nowrap !important;
-    display: unset !important;
+    display: block !important;
 }

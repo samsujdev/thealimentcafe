@@ -147,8 +147,8 @@ function Sales() {
                 <tr>
                   <th>S.N.</th>
                   <th>Menu</th>
-                  <th>Qnt</th>
-                  <th>Value</th>
+                  <th className='TextCenter'>Qnt</th>
+                  <th className='TextCenter'>Value</th>
                 </tr>
                 {orderList.map((item,index)=>{
                   totalAmount = totalAmount+(item.amount*item.quantity);
@@ -160,16 +160,16 @@ function Sales() {
                       <p>{item.menu_name}</p>
                     </td>
                     <td>
-                      <p>{item.quantity}</p>
+                      <p className='TextCenter'>{item.quantity}</p>
                     </td>
                     <td>
-                      <p>{item.amount*item.quantity}</p>
+                      <p className='TextCenter'>{item.amount*item.quantity}</p>
                     </td>
                   </tr>)
                 })}
                 {totalAmount && <tr>
                   <th colSpan={3}>TOTAL</th>
-                  <th>{totalAmount}</th>
+                  <th className='TextCenter'>{totalAmount}</th>
                 </tr>}
                 {!orderList.length && <tr>
                   <td colSpan={8}>
@@ -188,8 +188,8 @@ function Sales() {
                 <tr>
                   <th>S.N.</th>
                   <th>Date</th>
-                  <th>Qnt</th>
-                  <th>Value</th>
+                  <th className='TextCenter'>Qnt</th>
+                  <th className='TextCenter'>Value</th>
                 </tr>
                 {orderList.map((item,index)=>{
                   totalAmount = totalAmount+(item.amount*item.quantity);
@@ -201,16 +201,16 @@ function Sales() {
                     <p>{item.order_date}</p>
                   </td>
                   <td>
-                    <p>{item.quantity}</p>
+                    <p className='TextCenter'>{item.quantity}</p>
                   </td>
                   <td>
-                    <p>{item.amount*item.quantity}</p>
+                    <p className='TextCenter'>{item.amount*item.quantity}</p>
                   </td>
                 </tr>)
                 })}
                 {totalAmount && <tr>
                   <th colSpan={3}>TOTAL</th>
-                  <th>{totalAmount}</th>
+                  <th className='TextCenter'>{totalAmount}</th>
                 </tr>}
                 {!orderList.length && <tr>
                   <td colSpan={8}>
