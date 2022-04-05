@@ -28,7 +28,7 @@ class Order extends React.Component {
   }
 
   fetchItems(){
-    axios.get(process.env.REACT_APP_APIURL+'v1/items')
+    axios.get(process.env.REACT_APP_APIURL+'v1/order-items')
     .then(res => {
       this.setState({...this.state,itemList:res.data.data});
     });

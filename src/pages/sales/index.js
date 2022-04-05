@@ -151,7 +151,7 @@ function Sales() {
                   <th className='TextCenter'>Value</th>
                 </tr>
                 {orderList.map((item,index)=>{
-                  totalAmount = totalAmount+(item.amount*item.quantity);
+                  totalAmount = totalAmount+(item.total_amount);
                   return (<tr>
                     <td>
                       <p>{index+1}</p>
@@ -163,7 +163,7 @@ function Sales() {
                       <p className='TextCenter'>{item.quantity}</p>
                     </td>
                     <td>
-                      <p className='TextCenter'>{item.amount*item.quantity}</p>
+                      <p className='TextCenter'>{item.total_amount}</p>
                     </td>
                   </tr>)
                 })}
@@ -192,7 +192,7 @@ function Sales() {
                   <th className='TextCenter'>Value</th>
                 </tr>
                 {orderList.map((item,index)=>{
-                  totalAmount = totalAmount+(item.amount*item.quantity);
+                  totalAmount = totalAmount+(item.total_amount);
                   return (<tr>
                   <td>
                     <p>{index+1}</p>
@@ -204,7 +204,7 @@ function Sales() {
                     <p className='TextCenter'>{item.quantity}</p>
                   </td>
                   <td>
-                    <p className='TextCenter'>{item.amount*item.quantity}</p>
+                    <p className='TextCenter'>{item.total_amount}</p>
                   </td>
                 </tr>)
                 })}
