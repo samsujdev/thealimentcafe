@@ -13,7 +13,7 @@ import { useHistory,Link } from "react-router-dom";
 
 function AddOrder() {
   const router = useHistory();
-  const { register, handleSubmit, control, setValue, getValues } = useForm({
+  const { register, handleSubmit, control, setValue, getValues,formState: { errors } } = useForm({
     defaultValues: {
       menu_items: [{ unit: '' }],
       payment_type: 'cash',
@@ -106,9 +106,8 @@ function AddOrder() {
     });
 
   }
-  
-  
-  
+
+   
   return (
     <div>
 
@@ -126,15 +125,16 @@ function AddOrder() {
 
             <form onSubmit={handleSubmit(onSubmit)}>
 
-            <div className={`${styles.LoginInput}`}>
+            <div className={(errors.name)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <TextField id="outlined-basic" label="Name" variant="outlined" size="small" className='LoginInput'  {...register("name")} autoComplete="off" />             
+                <TextField id="outlined-basic" label="Name" variant="outlined" size="small" className='LoginInput'  {...register("name", { required: true })} autoComplete="off" /> 
+                {errors.name && <p className="LoginErrorText">Name Can&apos;t Be Blank</p>}            
               </div>
             </div>
 
             {fields.map((items,index)=>{
               return (
-              <div key={index} className={`${styles.LoginInput}`}>
+              <div key={index} className={(errors.menu_items)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
               <Controller
                 render={({ field }) => <Autocomplete  {...field} className='LoginInput'
@@ -147,9 +147,8 @@ function AddOrder() {
               />  }
                 name={`menu_items.${index}.item`}
                 control={control}
-              />     
-
-                              
+              />
+        
               </div>
               <div className={`${styles.InputAreaUnit}`}>
                  <Controller
@@ -158,6 +157,7 @@ function AddOrder() {
                 control={control}
                 
               />          
+              <p className="LoginErrorText">Name Can&apos;t Be Blank</p>
               </div>
             </div>);
             })}
