@@ -153,7 +153,7 @@ class Order extends React.Component {
                     <p className='TextCenter'>{item.totalamount}</p>
                   </td>
                   <td>
-                    {parseInt(item.is_paid) === 1 && <p className={`${styles.Paid} TextCenter`}>Paid</p>}
+                    {parseInt(item.is_paid) === 1 && <p className={`${styles.Paid} TextCenter`}>{(item.payment_type === 'cash')?'Cash':((item.payment_type === 'online')?'Online':'Paid')}</p>}
                     {parseInt(item.is_paid) === 0 && <p className='TextCenter'>
                       <FormControlLabel
                         control={

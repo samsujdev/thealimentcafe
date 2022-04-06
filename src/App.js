@@ -17,6 +17,16 @@ import StockUpdate from "./pages/stocks/stock-update";
 import MenuList from "./pages/menus/list";
 import MenuAdd from "./pages/menus/add";
 import Sales from "./pages/sales/index";
+import InventoryList from "./pages/inventory/list";
+import AddInventory from "./pages/inventory/add-inventory";
+import CreateInventory from "./pages/inventory/create-inventory";
+import AddCategory from "./pages/inventory/add-category";
+import AddItems from "./pages/inventory/add-items";
+import StockInReport from "./pages/inventory/stock-in-report";
+import StockOutReport from "./pages/inventory/stock-out-report";
+import InventoryReport from "./pages/inventory/inventory-report";
+import InventoryShop from "./pages/shop/inventory";
+import ShopNow from "./pages/shop/shopnow";
 
 
 function App() {
@@ -74,6 +84,36 @@ function App() {
         </Route>
         <Route path="/sales">
           <Sales />
+        </Route>
+        <Route path="/inventory/list">
+          <InventoryList />
+        </Route>
+        <Route path="/inventory/add">
+          <AddInventory />
+        </Route>
+        <Route path="/inventory/create">
+          <CreateInventory />
+        </Route>
+        <Route path="/inventory/add-category">
+          <AddCategory />
+        </Route>
+        <Route path="/inventory/add-items">
+          <AddItems />
+        </Route>
+        <Route path="/inventory/stock-in-report">
+          <StockInReport />
+        </Route>
+        <Route path="/inventory/stock-out-report">
+          <StockOutReport />
+        </Route>
+        <Route path="/inventory/report">
+          <InventoryReport />
+        </Route>
+        <Route path="/shop/inventory">
+          <InventoryShop />
+        </Route>
+        <Route path="/shop-now">
+          <ShopNow />
         </Route>
       </Switch>
     </Router>

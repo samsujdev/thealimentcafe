@@ -167,11 +167,11 @@ function Sales() {
                     </td>
                   </tr>)
                 })}
-                {totalAmount && <tr>
+                {(totalAmount > 0) && <tr>
                   <th colSpan={3}>TOTAL</th>
                   <th className='TextCenter'>{totalAmount}</th>
                 </tr>}
-                {!orderList.length && <tr>
+                {(orderList.length === 0) && <tr>
                   <td colSpan={8}>
                     <div className={`${styles.NoDataFound}`}>
                       <AlertTriangle />
@@ -208,11 +208,11 @@ function Sales() {
                   </td>
                 </tr>)
                 })}
-                {totalAmount && <tr>
+                {(totalAmount > 0) && <tr>
                   <th colSpan={3}>TOTAL</th>
                   <th className='TextCenter'>{totalAmount}</th>
                 </tr>}
-                {!orderList.length && <tr>
+                {(orderList.length === 0) && <tr>
                   <td colSpan={8}>
                     <div className={`${styles.NoDataFound}`}>
                       <AlertTriangle />

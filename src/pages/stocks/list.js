@@ -65,7 +65,7 @@ function Stock() {
 
                 {itemList.data.map((item,index)=>{
 
-                  return (<tr key={index} className={`${styles.StockOut}`}>
+                  return (<tr key={index} className={(parseInt(item.live_stock) === 0)?`${styles.StockOut}`:``}>
                     <td>
                       <p>{(index+1)}</p>
                     </td>

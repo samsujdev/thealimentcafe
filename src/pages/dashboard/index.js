@@ -25,6 +25,10 @@ function Home() {
               {userDetArr.post === 'Admin' && <Link to="/sales" className={`${styles.HomeMenuBU}`}>SALES</Link>}
               {userDetArr.post === 'Admin' && <Link to="/stocks/list" className={`${styles.HomeMenuBU}`}>STOCK</Link>}
               {userDetArr.post === 'Admin' && <Link to="/menus/list" className={`${styles.HomeMenuBU}`}>MENU</Link>}
+
+              <Link to="/inventory/list" className={`${styles.HomeMenuBU}`}>INVENTORY</Link>
+              <Link to="/shop/inventory" className={`${styles.HomeMenuBU}`}>SHOP</Link>
+              <Link to="/shop-now" className={`${styles.HomeMenuBU}`}>shop-now</Link>
               
               {(userDetArr.post === 'Admin' || userDetArr.post === 'Store Manager') && <Link to="/stocks/stock-update" className={`${styles.HomeMenuBU}`}>STOCK UPDATE</Link>}
               {(userDetArr.post === 'Admin' || userDetArr.post === 'Store Manager') && <Link to="/orders/list" className={`${styles.HomeMenuBU}`}>TAKE ORDER</Link>}
