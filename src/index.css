@@ -87,6 +87,10 @@ a {
   border-color: #ff0000;
 }
 
+.LoginInput.CusPadd .MuiOutlinedInput-input {
+  padding: 10.5px 14px !important;
+}
+
 .LoginErrorText {
 	font-size: 11px;
 	color: #ff0000;
@@ -212,6 +216,11 @@ a {
 .MuiSelect-icon,
 .MuiSvgIcon-root {
   color: rgb(255 255 255 / 54%) !important;
+}
+
+.LoginInput.BlIcon .MuiSelect-icon,
+.LoginInput.BlIcon .MuiSvgIcon-root {
+  color: rgba(0, 0, 0, 0.87) !important;
 }
 
 .CheckBoxWithoutLabel .MuiFormControlLabel-root {

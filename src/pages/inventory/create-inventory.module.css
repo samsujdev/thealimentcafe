@@ -1,7 +1,8 @@
 .BodyHeadArea {
     display: flex;
-    width: 100%;
-    margin: 0 0 25px 0;
+    min-width: 300px;
+    max-width: 380px;
+    margin: 0 auto 25px auto;
     align-items: center;
     justify-content: space-between;
 }
@@ -38,95 +39,18 @@
     width: 100%;
 }
 
-.TableContainer {
-    width: 100%;
-    position: relative;
-    border: 1px solid #2a2a3e;
-    overflow: auto;
-}
-
-.TableContainer table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.TableContainer table tr th {
-    min-width: 60px;
-    color: #fff;
-    font-size: 15px;
-    font-weight: 400;
-    padding: 8px 5px;
-    border-bottom: 1px solid #2a2a3e;
-    background: #242438;
-    text-align: left;
-    white-space: nowrap;
-}
-
-.TableContainer table tr th:nth-child(1) {
-    padding-left: 10px;
-}
-
-.TableContainer table tr th:nth-child(2) {
-    min-width: 130px;
-}
-
-.TableContainer table tr th:nth-child(3) {
-    min-width: 150px;
-}
-
-.TableContainer table tr td {
-    padding: 8px 5px;
-    border-bottom: 1px solid #2a2a3e;
-    min-width: 60px;
-    text-align: center;
-}
-
-.TableContainer table tr td:nth-child(2) {
-    min-width: 130px;
-}
-
-.TableContainer table tr td:nth-child(3) {
-    min-width: 150px;
-}
-
-.TableContainer table tr td p {
-    color: #e1e1e1;
-    font-size: 13px;
-    font-weight: 300;
-    text-align: left;
-    margin: 0;
-    white-space: nowrap;
-    /* display: flex; */
-    align-items: center;
-    /* justify-content: center; */
-    /* width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis; */
-}
-
-.TableContainer table tr td:nth-child(1) p {
-    padding-left: 10px;
-}
-
-.TableContainer table tr:last-child td {
-    border-bottom: none;
-}
-
-.Ready td:last-child p {
-    color: rgba(238, 168, 37, 1);
-}
-
-.Cooking td:last-child p {
-    color: rgba(255, 0, 0, 1);
-}
-
-.Delivered td:last-child p,
-td p.Paid {
-    color: rgba(9, 154, 11, 1) !important;
+.HomeButtonArea {
+    min-width: 300px;
+    max-width: 380px;
+    margin: auto;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: -10px;
 }
 
 .HomeMenuBU {
-	width: 200px;
+	width: 100%;
 	background-color: #e1e1e1  !important;
 	font-size: 16px !important;
     color: #1e1e2d !important;
@@ -135,7 +59,7 @@ td p.Paid {
     border-radius: 5px !important;
     padding: 15px 10px 15px 10px !important;
     transition: all .3s ease-in-out !important;
-    margin: 0px 0 0px 0 !important;
+    margin: 10px 0 !important;
     font-family: 'Montserrat', sans-serif !important;
     text-align: center !important;
     display: flex;
@@ -148,63 +72,52 @@ td p.Paid {
     text-decoration: none !important;
 }
 
-.HomeMenuBU svg {
-    width: 18px;
-    margin-right: 10px;
+.HomeTitle {
+    font-size: 16px;
+    font-weight: 300;
+    color: #c2c2c2;
+    margin: 0 0 15px 0;
 }
 
-.StockUpdateRow {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 25px;
-}
-
-.Stock {
-    min-width: 150px;
-    width: 25%;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border: 1px solid #1e1e2d;
-}
-
-.StockName {
-    font-size: 13px;
-    font-weight: 400;
-    color: #fff;
-    width: 140px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0;
-}
-
-.StockUnit {
-    font-size: 13px;
+.HomeTitle span {
+    font-size: 22px;
     font-weight: 500;
     color: #fff;
-    margin: 0;
 }
 
-.NoDataFound {
-    text-align: center;
-    padding: 50px 0;
-}
-
-.NoDataFound svg {
-    width: 50px;
-    height: auto;
-    stroke-width: 1;
-    color: #666;
-    margin-bottom: 10px;
-}
-
-.NoDataFound p {
-    color: #888888 !important;
-    font-size: 18px !important;
-    font-weight: 300 !important;
+.HomeMenuBULive {
+    width: 100%;
+	background-color: #ff0000  !important;
+	font-size: 16px !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+    border: none !important;
+    border-radius: 5px !important;
+    padding: 15px 10px 15px 10px !important;
+    transition: all .3s ease-in-out !important;
+    margin: 10px 0 !important;
+    font-family: 'Montserrat', sans-serif !important;
     text-align: center !important;
-    margin: 0 !important;
-    white-space: nowrap !important;
-    display: block !important;
+    animation: pulse-black 1.2s infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.HomeMenuBULive:hover {
+    text-decoration: none !important;
+}
+
+@keyframes pulse-black {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 20px rgba(255, 0, 0, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+    }
 }

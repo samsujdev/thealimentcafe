@@ -1,9 +1,17 @@
+.HomeButtonArea {
+    min-width: 300px;
+    max-width: 380px;
+    margin: auto;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: -10px;
+}
+
 .BodyHeadArea {
     display: flex;
     width: 100%;
     margin: 0 0 25px 0;
-    align-items: center;
-    justify-content: space-between;
 }
 
 .BackBU {
@@ -14,7 +22,7 @@
     font-weight: 600 !important;
     border: none !important;
     border-radius: 5px !important;
-    padding: 0px 0px 0px 0px !important;
+    padding: 0px 0px 05px 0px !important;
     transition: all .3s ease-in-out !important;
     margin: 0px 10px 0px 0 !important;
     font-family: 'Montserrat', sans-serif !important;
@@ -38,104 +46,47 @@
     width: 100%;
 }
 
-.TableContainer {
-    width: 100%;
+.LoginInput {
+	width: 100%;
+	padding: 15px 0;
+    display: flex;
+}
+
+.InputArea {
+	width: 100%;
+    display: flex;
+    flex-wrap: wrap;
     position: relative;
-    border: 1px solid #2a2a3e;
-    overflow: auto;
 }
 
-.TableContainer table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.TableContainer table tr th {
-    min-width: 60px;
+.FormLabel {
+    font-size: 14px;
+    line-height: 30px;
+    font-weight: 500;
     color: #fff;
-    font-size: 15px;
-    font-weight: 400;
-    padding: 8px 5px;
-    border-bottom: 1px solid #2a2a3e;
-    background: #242438;
-    text-align: left;
-    white-space: nowrap;
-}
-
-.TableContainer table tr th:nth-child(1) {
-    padding-left: 10px;
-}
-
-.TableContainer table tr th:nth-child(2) {
-    min-width: 130px;
-}
-
-.TableContainer table tr th:nth-child(3) {
-    min-width: 150px;
-}
-
-.TableContainer table tr td {
-    padding: 8px 5px;
-    border-bottom: 1px solid #2a2a3e;
-    min-width: 60px;
-    text-align: center;
-}
-
-.TableContainer table tr td:nth-child(2) {
-    min-width: 130px;
-}
-
-.TableContainer table tr td:nth-child(3) {
-    min-width: 150px;
-}
-
-.TableContainer table tr td p {
-    color: #e1e1e1;
-    font-size: 13px;
-    font-weight: 300;
-    text-align: left;
     margin: 0;
-    white-space: nowrap;
-    /* display: flex; */
-    align-items: center;
-    /* justify-content: center; */
-    /* width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis; */
 }
 
-.TableContainer table tr td:nth-child(1) p {
-    padding-left: 10px;
+.InputAreaUnit {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    max-width: 100px;
+    margin-left: 10px;
 }
 
-.TableContainer table tr:last-child td {
-    border-bottom: none;
-}
-
-.Ready td:last-child p {
-    color: rgba(238, 168, 37, 1);
-}
-
-.Cooking td:last-child p {
-    color: rgba(255, 0, 0, 1);
-}
-
-.Delivered td:last-child p,
-td p.Paid {
-    color: rgba(9, 154, 11, 1) !important;
-}
-
-.HomeMenuBU {
-	width: 200px;
-	background-color: #e1e1e1  !important;
-	font-size: 16px !important;
+.AddEditBU {
+	width: 120px;
+    background-color: #e1e1e1 !important;
+    font-size: 13px !important;
     color: #1e1e2d !important;
     font-weight: 600 !important;
     border: none !important;
     border-radius: 5px !important;
-    padding: 15px 10px 15px 10px !important;
+    padding: 5px 10px 5px 10px !important;
     transition: all .3s ease-in-out !important;
-    margin: 0px 0 0px 0 !important;
+    margin: 0px 0 0px 10px !important;
     font-family: 'Montserrat', sans-serif !important;
     text-align: center !important;
     display: flex;
@@ -143,68 +94,33 @@ td p.Paid {
     justify-content: center;
 }
 
-.HomeMenuBU:hover {
+.AddEditBU:hover {
 	background: #fff;
     text-decoration: none !important;
 }
 
-.HomeMenuBU svg {
-    width: 18px;
-    margin-right: 10px;
+.AddEditBU svg {
+    width: 16px;
+    margin-right: 5px;
 }
 
-.StockUpdateRow {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 25px;
-}
-
-.Stock {
-    min-width: 150px;
-    width: 25%;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border: 1px solid #1e1e2d;
-}
-
-.StockName {
-    font-size: 13px;
-    font-weight: 400;
-    color: #fff;
-    width: 140px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0;
-}
-
-.StockUnit {
-    font-size: 13px;
-    font-weight: 500;
-    color: #fff;
-    margin: 0;
-}
-
-.NoDataFound {
-    text-align: center;
-    padding: 50px 0;
-}
-
-.NoDataFound svg {
-    width: 50px;
-    height: auto;
-    stroke-width: 1;
-    color: #666;
-    margin-bottom: 10px;
-}
-
-.NoDataFound p {
-    color: #888888 !important;
-    font-size: 18px !important;
-    font-weight: 300 !important;
+.LoginBU {
+	width: 60px;
+    height: 60px;
+	background-color: #e1e1e1  !important;
+	font-size: 16px !important;
+    color: #1e1e2d !important;
+    font-weight: 600 !important;
+    border: none !important;
+    border-radius: 50% !important;
+    padding: 8px 10px 8px 10px !important;
+    transition: all .3s ease-in-out !important;
+    margin: 10px auto 0 auto !important;
+    font-family: 'Montserrat', sans-serif !important;
     text-align: center !important;
-    margin: 0 !important;
-    white-space: nowrap !important;
-    display: block !important;
+}
+
+.LoginBU:hover {
+	background: #fff;
+    text-decoration: none !important;
 }

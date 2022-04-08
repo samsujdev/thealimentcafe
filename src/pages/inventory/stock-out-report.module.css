@@ -1,9 +1,9 @@
 .BodyHeadArea {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     margin: 0 0 25px 0;
-    align-items: center;
-    justify-content: space-between;
 }
 
 .BackBU {
@@ -51,7 +51,7 @@
 }
 
 .TableContainer table tr th {
-    min-width: 60px;
+    min-width: 52px;
     color: #fff;
     font-size: 15px;
     font-weight: 400;
@@ -63,7 +63,7 @@
 }
 
 .TableContainer table tr th:nth-child(1) {
-    padding-left: 10px;
+    padding-left: 8px;
 }
 
 .TableContainer table tr th:nth-child(2) {
@@ -77,8 +77,7 @@
 .TableContainer table tr td {
     padding: 8px 5px;
     border-bottom: 1px solid #2a2a3e;
-    min-width: 60px;
-    text-align: center;
+    min-width: 52px;
 }
 
 .TableContainer table tr td:nth-child(2) {
@@ -96,94 +95,42 @@
     text-align: left;
     margin: 0;
     white-space: nowrap;
-    /* display: flex; */
-    align-items: center;
-    /* justify-content: center; */
     /* width: 100%;
     overflow: hidden;
     text-overflow: ellipsis; */
 }
 
 .TableContainer table tr td:nth-child(1) p {
-    padding-left: 10px;
+    padding-left: 8px;
 }
 
 .TableContainer table tr:last-child td {
     border-bottom: none;
 }
 
-.Ready td:last-child p {
-    color: rgba(238, 168, 37, 1);
+.Ready p {
+    color: rgba(238, 168, 37, 1) !important;
 }
 
-.Cooking td:last-child p {
-    color: rgba(255, 0, 0, 1);
+.Cooking p {
+    color: rgba(255, 0, 0, 1) !important;
 }
 
-.Delivered td:last-child p,
-td p.Paid {
+.Delivered p {
     color: rgba(9, 154, 11, 1) !important;
 }
 
-.HomeMenuBU {
-	width: 200px;
-	background-color: #e1e1e1  !important;
-	font-size: 16px !important;
-    color: #1e1e2d !important;
-    font-weight: 600 !important;
-    border: none !important;
-    border-radius: 5px !important;
-    padding: 15px 10px 15px 10px !important;
-    transition: all .3s ease-in-out !important;
-    margin: 0px 0 0px 0 !important;
-    font-family: 'Montserrat', sans-serif !important;
-    text-align: center !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.ReactDatePicker {
+    position: relative;
 }
 
-.HomeMenuBU:hover {
-	background: #fff;
-    text-decoration: none !important;
-}
-
-.HomeMenuBU svg {
+.ReactDatePicker svg {
+    position: absolute;
     width: 18px;
-    margin-right: 10px;
-}
-
-.StockUpdateRow {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 25px;
-}
-
-.Stock {
-    min-width: 150px;
-    width: 25%;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border: 1px solid #1e1e2d;
-}
-
-.StockName {
-    font-size: 13px;
-    font-weight: 400;
-    color: #fff;
-    width: 140px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0;
-}
-
-.StockUnit {
-    font-size: 13px;
-    font-weight: 500;
-    color: #fff;
-    margin: 0;
+    color: #c9c9c9;
+    top: 6px;
+    right: 12px;
+    z-index: -1;
 }
 
 .NoDataFound {
@@ -206,5 +153,20 @@ td p.Paid {
     text-align: center !important;
     margin: 0 !important;
     white-space: nowrap !important;
-    display: block !important;
+}
+
+.CancelBU {
+    padding: 0px 4px !important;
+    background-color: #f00 !important;
+    color: #fff !important;
+    width: 46px;
+    min-width: 0 !important;
+}
+
+.CancelBU:hover {
+    background: rgb(165, 2, 2) !important;
+}
+
+.CancelBU svg {
+    width: 18px;
 }

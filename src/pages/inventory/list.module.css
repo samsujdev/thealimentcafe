@@ -6,6 +6,15 @@
     justify-content: space-between;
 }
 
+.BodyFilterArea {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 0 0 25px 0;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .BackBU {
 	width: auto;
     background-color: transparent !important;
@@ -51,7 +60,7 @@
 }
 
 .TableContainer table tr th {
-    min-width: 60px;
+    min-width: 50px;
     color: #fff;
     font-size: 15px;
     font-weight: 400;
@@ -67,26 +76,17 @@
 }
 
 .TableContainer table tr th:nth-child(2) {
-    min-width: 130px;
-}
-
-.TableContainer table tr th:nth-child(3) {
-    min-width: 150px;
+    min-width: 100px;
 }
 
 .TableContainer table tr td {
     padding: 8px 5px;
     border-bottom: 1px solid #2a2a3e;
-    min-width: 60px;
-    text-align: center;
+    min-width: 50px;
 }
 
 .TableContainer table tr td:nth-child(2) {
-    min-width: 130px;
-}
-
-.TableContainer table tr td:nth-child(3) {
-    min-width: 150px;
+    min-width: 100px;
 }
 
 .TableContainer table tr td p {
@@ -96,9 +96,6 @@
     text-align: left;
     margin: 0;
     white-space: nowrap;
-    /* display: flex; */
-    align-items: center;
-    /* justify-content: center; */
     /* width: 100%;
     overflow: hidden;
     text-overflow: ellipsis; */
@@ -108,25 +105,20 @@
     padding-left: 10px;
 }
 
+.TableContainer table tr td:nth-child(2) p {
+    width: 180px;
+    margin: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .TableContainer table tr:last-child td {
     border-bottom: none;
 }
 
-.Ready td:last-child p {
-    color: rgba(238, 168, 37, 1);
-}
-
-.Cooking td:last-child p {
-    color: rgba(255, 0, 0, 1);
-}
-
-.Delivered td:last-child p,
-td p.Paid {
-    color: rgba(9, 154, 11, 1) !important;
-}
-
 .HomeMenuBU {
-	width: 200px;
+	width: 100%;
 	background-color: #e1e1e1  !important;
 	font-size: 16px !important;
     color: #1e1e2d !important;
@@ -153,37 +145,23 @@ td p.Paid {
     margin-right: 10px;
 }
 
-.StockUpdateRow {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 25px;
+.SalesDropDownDiv {
+    width: 200px;
+    position: relative;
 }
 
-.Stock {
-    min-width: 150px;
-    width: 25%;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border: 1px solid #1e1e2d;
+.ReactDatePicker {
+    position: relative;
+    width: 100%;
 }
 
-.StockName {
-    font-size: 13px;
-    font-weight: 400;
-    color: #fff;
-    width: 140px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0;
-}
-
-.StockUnit {
-    font-size: 13px;
-    font-weight: 500;
-    color: #fff;
-    margin: 0;
+.ReactDatePicker svg {
+    position: absolute;
+    width: 18px;
+    color: #c9c9c9;
+    top: 15px;
+    right: 12px;
+    z-index: -1;
 }
 
 .NoDataFound {
@@ -206,5 +184,74 @@ td p.Paid {
     text-align: center !important;
     margin: 0 !important;
     white-space: nowrap !important;
-    display: block !important;
+}
+
+.InventoryTab {
+    background: #1e1e2d;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    box-shadow: 0px 2px 20px 0 #0f0f17;
+    bottom: 0;
+    z-index: 99;
+}
+
+.TabConatiner {
+    width: 100%;
+    max-width: 800px;
+    margin: 0px auto 0px auto;
+    padding: 0px;
+}
+
+.TabRow {
+    display: flex;
+    width: 100%;
+}
+
+.TabButtons {
+    width: 25%;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border-right: 1px solid #2a2a3e;
+}
+
+.TabButtons:last-child {
+    border-right: 0px solid #2a2a3e;
+}
+
+.Container {
+    min-width: 360px;
+    max-width: 800px;
+    margin: 100px auto 60px auto;
+    padding: 20px;
+}
+
+@media (min-width: 360px) {
+    .SalesDropDownDiv {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    .SalesDropDownDiv:last-child {
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 400px) {
+    .SalesDropDownDiv {
+        width: 170px;
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 450px) {
+    .SalesDropDownDiv {
+        width: 200px;
+    }
 }

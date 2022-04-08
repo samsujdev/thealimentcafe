@@ -67,26 +67,17 @@
 }
 
 .TableContainer table tr th:nth-child(2) {
-    min-width: 130px;
-}
-
-.TableContainer table tr th:nth-child(3) {
-    min-width: 150px;
+    min-width: 100px;
 }
 
 .TableContainer table tr td {
     padding: 8px 5px;
     border-bottom: 1px solid #2a2a3e;
     min-width: 60px;
-    text-align: center;
 }
 
 .TableContainer table tr td:nth-child(2) {
-    min-width: 130px;
-}
-
-.TableContainer table tr td:nth-child(3) {
-    min-width: 150px;
+    min-width: 100px;
 }
 
 .TableContainer table tr td p {
@@ -96,9 +87,6 @@
     text-align: left;
     margin: 0;
     white-space: nowrap;
-    /* display: flex; */
-    align-items: center;
-    /* justify-content: center; */
     /* width: 100%;
     overflow: hidden;
     text-overflow: ellipsis; */
@@ -110,19 +98,6 @@
 
 .TableContainer table tr:last-child td {
     border-bottom: none;
-}
-
-.Ready td:last-child p {
-    color: rgba(238, 168, 37, 1);
-}
-
-.Cooking td:last-child p {
-    color: rgba(255, 0, 0, 1);
-}
-
-.Delivered td:last-child p,
-td p.Paid {
-    color: rgba(9, 154, 11, 1) !important;
 }
 
 .HomeMenuBU {
@@ -153,39 +128,6 @@ td p.Paid {
     margin-right: 10px;
 }
 
-.StockUpdateRow {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 25px;
-}
-
-.Stock {
-    min-width: 150px;
-    width: 25%;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border: 1px solid #1e1e2d;
-}
-
-.StockName {
-    font-size: 13px;
-    font-weight: 400;
-    color: #fff;
-    width: 140px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0;
-}
-
-.StockUnit {
-    font-size: 13px;
-    font-weight: 500;
-    color: #fff;
-    margin: 0;
-}
-
 .NoDataFound {
     text-align: center;
     padding: 50px 0;
@@ -206,5 +148,24 @@ td p.Paid {
     text-align: center !important;
     margin: 0 !important;
     white-space: nowrap !important;
-    display: block !important;
+}
+
+.LoginInput {
+	width: 100%;
+	padding: 12px 0;
+}
+
+.InputArea {
+	width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.FormLabel {
+    font-size: 14px;
+    line-height: 30px;
+    font-weight: 500;
+    color: #000;
+    margin: 0;
 }
