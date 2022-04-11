@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './list.module.css';
-import { FormControlLabel, Checkbox } from '@material-ui/core';
+import { FormControlLabel, Checkbox, Dialog, DialogTitle, DialogContent, DialogActions, Button, RadioGroup, Radio, FormControl } from '@material-ui/core';
 import { ArrowLeft, Plus,AlertTriangle } from 'react-feather';
 import axios from 'axios';
 import Header from "../../components/header";
@@ -12,6 +12,9 @@ import { Link } from "react-router-dom";
 class Order extends React.Component {
   state = {
     loading:false,
+    open:false,
+    selId:0,
+    paymentType:'Cash',
     itemList: [],
     orderList:[]
   }
@@ -41,15 +44,27 @@ class Order extends React.Component {
     });
   }
 
-  setPayment = (event,itemId)=>{
-    this.setState({...this.state,loading:true});
-    let is_paid = 0;
+  handleClose = () =>{
+    this.setState({...this.state,open:false});
+  }
+
+  selPaymentType = (event,itemId)=>{
     if(event.target.checked){
-      is_paid = 1;
+      this.setState({...this.state,open:true,selId:itemId});
+    }else{
+      this.setState({...this.state,open:false,selId:0});
     }
-    axios.put(process.env.REACT_APP_APIURL+'v1/orders/'+itemId,{is_paid:is_paid})
+  }
+
+  cngPaymentType = (event) =>{
+    this.setState({...this.state,paymentType:event.target.value});
+  }
+
+  setPayment = ()=>{
+    this.setState({...this.state,loading:true,open:false});
+    axios.put(process.env.REACT_APP_APIURL+'v1/orders/'+this.state.selId,{is_paid:1,payment_type:this.state.paymentType})
     .then(res => {
-      this.setState({...this.state,loading:false});
+      this.setState({...this.state,loading:false, paymentType:'Cash'});
       clearInterval(this.interval2);
       this.fetchOrders();
       this.interval2 = setInterval(() => this.fetchOrders(), 5000);
@@ -153,12 +168,12 @@ class Order extends React.Component {
                     <p className='TextCenter'>{item.totalamount}</p>
                   </td>
                   <td>
-                    {parseInt(item.is_paid) === 1 && <p className={`${styles.Paid} TextCenter`}>{(item.payment_type === 'cash')?'Cash':((item.payment_type === 'online')?'Online':'Paid')}</p>}
+                    {parseInt(item.is_paid) === 1 && <p className={`${styles.Paid} TextCenter`}>{item.payment_type}</p>}
                     {parseInt(item.is_paid) === 0 && <p className='TextCenter'>
                       <FormControlLabel
                         control={
                           <Checkbox
-                            onChange={(e)=>this.setPayment(e,item.id)}
+                            onChange={(e)=>this.selPaymentType(e,item.id)}
                             name="payment"
                             color="primary"
                           />
@@ -179,6 +194,7 @@ class Order extends React.Component {
                         }
                       /> Ready</p>}
                   {parseInt(item.status) === 2 && <p className='TextCenter'>Delivered</p>}
+                  {parseInt(item.status) === 3 && <p className='TextCenter'>Cancelled</p>}
                   </td>
                 </tr>)
                 })}
@@ -196,6 +212,30 @@ class Order extends React.Component {
 
           </div>
         </div>
+
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          
+        >
+          <DialogTitle className={`${styles.DialogNew}`}>
+            Payment Type
+          </DialogTitle>
+          <DialogContent className={`${styles.DialogNew}`}>
+            Select your payment type
+            <FormControl>
+              <RadioGroup defaultValue={this.state.paymentType} name="payment_type" onChange={this.cngPaymentType}>
+                <FormControlLabel value="Cash" control={<Radio />} label="Cash" />
+                <FormControlLabel value="Online" control={<Radio />} label="Online" />
+              </RadioGroup>
+            </FormControl>
+          </DialogContent>
+          <DialogActions className={`${styles.DialogNew}`}>
+            <Button onClick={this.setPayment} autoFocus>
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
 
     </div>
   )}

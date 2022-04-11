@@ -124,6 +124,7 @@ class LiveOrder extends React.Component {
                       />Cooking</p>}
                   {parseInt(item.status) === 1 && <p className='TextCenter'>Ready</p>}
                   {parseInt(item.status) === 2 && <p className='TextCenter'>Delivered</p>}
+                  {parseInt(item.status) === 3 && <p className='TextCenter'>Cancelled</p>}
                   </td>
                 </tr>)
                 })}

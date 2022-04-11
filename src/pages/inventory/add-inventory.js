@@ -1,125 +1,116 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import styles from './add-inventory.module.css';
 import withAuth from "../../components/withAuth";
 import Header from "../../components/header";
-import { Link } from "react-router-dom";
 import { ArrowLeft, Plus } from 'react-feather';
-import { Button, TextField, MenuItem, FormControl, Select } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { useForm,Controller,useFieldArray } from "react-hook-form";
+import axios from 'axios';
+import Loader from "../../components/loader";
+import { useHistory,Link } from "react-router-dom";
 
 function Add() {
+  const userDet = localStorage.getItem("userDet");
+  const userDetArr = JSON.parse(userDet);
+  const router = useHistory();
+  const { register, handleSubmit, control, setValue, formState: { errors } } = useForm({
+    defaultValues: {
+      inventory_items: [{ unit: '' }]
+    }
+  });
+  const [categoryList,setCategoryList] = useState({'data':[],'loading':false});
+  const [itemList, setItemList] = useState({'data':[],'loading':false});
+  const [loading, setLoading] = React.useState(false);
+  const { fields, append , remove } = useFieldArray({ control, name: "inventory_items" });
 
-  const [selectCategory, setAge] = React.useState('');
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
+  
+  useEffect(() => {
+    if(!categoryList.loading){
+      fetchInventoryCategories();
+    }
+  });
 
-  const top100Films = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 },
-    { title: 'The Dark Knight', year: 2008 },
-    { title: '12 Angry Men', year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: 'Pulp Fiction', year: 1994 },
-    { title: 'The Lord of the Rings: The Return of the King', year: 2003 },
-    { title: 'The Good, the Bad and the Ugly', year: 1966 },
-    { title: 'Fight Club', year: 1999 },
-    { title: 'The Lord of the Rings: The Fellowship of the Ring', year: 2001 },
-    { title: 'Star Wars: Episode V - The Empire Strikes Back', year: 1980 },
-    { title: 'Forrest Gump', year: 1994 },
-    { title: 'Inception', year: 2010 },
-    { title: 'The Lord of the Rings: The Two Towers', year: 2002 },
-    { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
-    { title: 'Goodfellas', year: 1990 },
-    { title: 'The Matrix', year: 1999 },
-    { title: 'Seven Samurai', year: 1954 },
-    { title: 'Star Wars: Episode IV - A New Hope', year: 1977 },
-    { title: 'City of God', year: 2002 },
-    { title: 'Se7en', year: 1995 },
-    { title: 'The Silence of the Lambs', year: 1991 },
-    { title: "It's a Wonderful Life", year: 1946 },
-    { title: 'Life Is Beautiful', year: 1997 },
-    { title: 'The Usual Suspects', year: 1995 },
-    { title: 'Léon: The Professional', year: 1994 },
-    { title: 'Spirited Away', year: 2001 },
-    { title: 'Saving Private Ryan', year: 1998 },
-    { title: 'Once Upon a Time in the West', year: 1968 },
-    { title: 'American History X', year: 1998 },
-    { title: 'Interstellar', year: 2014 },
-    { title: 'Casablanca', year: 1942 },
-    { title: 'City Lights', year: 1931 },
-    { title: 'Psycho', year: 1960 },
-    { title: 'The Green Mile', year: 1999 },
-    { title: 'The Intouchables', year: 2011 },
-    { title: 'Modern Times', year: 1936 },
-    { title: 'Raiders of the Lost Ark', year: 1981 },
-    { title: 'Rear Window', year: 1954 },
-    { title: 'The Pianist', year: 2002 },
-    { title: 'The Departed', year: 2006 },
-    { title: 'Terminator 2: Judgment Day', year: 1991 },
-    { title: 'Back to the Future', year: 1985 },
-    { title: 'Whiplash', year: 2014 },
-    { title: 'Gladiator', year: 2000 },
-    { title: 'Memento', year: 2000 },
-    { title: 'The Prestige', year: 2006 },
-    { title: 'The Lion King', year: 1994 },
-    { title: 'Apocalypse Now', year: 1979 },
-    { title: 'Alien', year: 1979 },
-    { title: 'Sunset Boulevard', year: 1950 },
-    { title: 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb', year: 1964 },
-    { title: 'The Great Dictator', year: 1940 },
-    { title: 'Cinema Paradiso', year: 1988 },
-    { title: 'The Lives of Others', year: 2006 },
-    { title: 'Grave of the Fireflies', year: 1988 },
-    { title: 'Paths of Glory', year: 1957 },
-    { title: 'Django Unchained', year: 2012 },
-    { title: 'The Shining', year: 1980 },
-    { title: 'WALL·E', year: 2008 },
-    { title: 'American Beauty', year: 1999 },
-    { title: 'The Dark Knight Rises', year: 2012 },
-    { title: 'Princess Mononoke', year: 1997 },
-    { title: 'Aliens', year: 1986 },
-    { title: 'Oldboy', year: 2003 },
-    { title: 'Once Upon a Time in America', year: 1984 },
-    { title: 'Witness for the Prosecution', year: 1957 },
-    { title: 'Das Boot', year: 1981 },
-    { title: 'Citizen Kane', year: 1941 },
-    { title: 'North by Northwest', year: 1959 },
-    { title: 'Vertigo', year: 1958 },
-    { title: 'Star Wars: Episode VI - Return of the Jedi', year: 1983 },
-    { title: 'Reservoir Dogs', year: 1992 },
-    { title: 'Braveheart', year: 1995 },
-    { title: 'M', year: 1931 },
-    { title: 'Requiem for a Dream', year: 2000 },
-    { title: 'Amélie', year: 2001 },
-    { title: 'A Clockwork Orange', year: 1971 },
-    { title: 'Like Stars on Earth', year: 2007 },
-    { title: 'Taxi Driver', year: 1976 },
-    { title: 'Lawrence of Arabia', year: 1962 },
-    { title: 'Double Indemnity', year: 1944 },
-    { title: 'Eternal Sunshine of the Spotless Mind', year: 2004 },
-    { title: 'Amadeus', year: 1984 },
-    { title: 'To Kill a Mockingbird', year: 1962 },
-    { title: 'Toy Story 3', year: 2010 },
-    { title: 'Logan', year: 2017 },
-    { title: 'Full Metal Jacket', year: 1987 },
-    { title: 'Dangal', year: 2016 },
-    { title: 'The Sting', year: 1973 },
-    { title: '2001: A Space Odyssey', year: 1968 },
-    { title: "Singin' in the Rain", year: 1952 },
-    { title: 'Toy Story', year: 1995 },
-    { title: 'Bicycle Thieves', year: 1948 },
-    { title: 'The Kid', year: 1921 },
-    { title: 'Inglourious Basterds', year: 2009 },
-    { title: 'Snatch', year: 2000 },
-    { title: '3 Idiots', year: 2009 },
-    { title: 'Monty Python and the Holy Grail', year: 1975 },
-  ];
+  const fetchInventoryCategories = () =>{
+    setLoading(true);
+    let olist = itemList;
+    olist = {...olist,'loading':true};
+    setCategoryList(olist);
+    axios.get(process.env.REACT_APP_APIURL+'v1/inventory-categories',)
+    .then(res => {
+      setLoading(false);
+      let tempData = res.data.data.map(item =>{
+        return {label:item.category_name,value:item.id};
+      });
+      setCategoryList({'data':tempData,'loading':true});
+    }).catch(err =>{
+      setLoading(false);
+      let olist = categoryList;
+      olist = {...olist,'loading':true};
+      setCategoryList(olist);
+    });
+  }
 
+  const fetchInventoryitems = (catId) =>{
+    setLoading(true);
+    let olist = categoryList;
+    olist = {...olist,'loading':true};
+    setItemList(olist);
+    axios.get(process.env.REACT_APP_APIURL+'v1/inventory-items-by-category/'+catId)
+    .then(res => {
+      setLoading(false);
+      let tempData = res.data.data.map(item =>{
+        return {label:item.item_name,value:item.id};
+      });
+      setItemList({'data':tempData,'loading':true});
+    }).catch(err =>{
+      setLoading(false);
+      let olist = categoryList;
+      olist = {...olist,'loading':true};
+      setItemList(olist);
+    });
+  }
+
+  const changeCategory = (item) =>{
+    if(item){
+      fetchInventoryitems(item.value);
+    }else{
+      setItemList({'data':[],'loading':true});
+    }
+
+    if(fields.length){
+      let n =0;
+      for(n=(fields.length-1);n >0; n-- ){
+        console.log(n);
+        remove(n);
+      }
+    }
+
+    let index =0;
+
+    setValue(`inventory_items.${index}.item`,'');
+    setValue(`inventory_items.${index}.unit`, '');
+  }
+
+  const onSubmit = data => {
+    data = {...data,added_by:userDetArr.id, stock_in_out:1 };
+    setLoading(true);
+    
+    axios.post(process.env.REACT_APP_APIURL+'v1/inventories',data)
+    .then(res => {
+      setLoading(false);
+      router.push('/inventory/list');
+    }).catch(err =>{
+      setLoading(false);
+      console.log(err);
+    });
+  }
+
+  
   return (
     <div>
 
+        {loading && <Loader />}
         <Header />
 
         <div className="Body">
@@ -131,63 +122,49 @@ function Add() {
                 <p className={`${styles.ViewUserTitle}`}>Add Inventory</p>
               </div>
 
-              <div className={`${styles.LoginInput}`}>
+              <form onSubmit={handleSubmit(onSubmit)}>
+
+              <div className={(errors.category_id)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
                 <div className={`${styles.InputArea}`}>
                   <label className={`${styles.FormLabel}`}>Category Name</label>
-                  <FormControl variant="outlined" className="LoginInput CusPadd">
-                    <Select
-                      
-                      value={selectCategory}
-                      onChange={handleChange}
-                      size="small"
-                    >
-                      <MenuItem value="fresh">Fresh</MenuItem>
-                      <MenuItem value="spices">Spices</MenuItem>
-                      <MenuItem value="packing">Packing Materials</MenuItem>
-                    </Select>
-                  </FormControl>
+                  <Controller
+                    render={({ field }) => <Autocomplete  {...field} className='LoginInput' id="combo-box-demo"
+                    options={categoryList.data}
+                    getOptionLabel={(option) => option.label}
+                    onChange={(e, options) =>{  if(options){ setValue(`category_id`, options.value); }else{ setValue(`category_id`, ''); } changeCategory(options); }}
+                    renderInput={(params) => <TextField {...params} label="Select Category" size="small" variant="outlined" />}
+                    />  }
+                    {...register("category_id", { required: true })}
+                    control={control}
+                  />
+                  {errors.category_id && <p className="LoginErrorText">Category Can&apos;t Be Blank</p>} 
                 </div>
               </div>
 
-              <div className={`${styles.LoginInput}`}>
+              {fields.map((items,index)=>{
+                return (<div className={`${styles.LoginInput}`}>
 
                 <div className={`${styles.InputArea}`}>
                   <label className={`${styles.FormLabel}`}>Select Item</label>
                   <Autocomplete className="LoginInput"
                     id="combo-box-demo"
-                    options={top100Films}
-                    getOptionLabel={(option) => option.title}
-                    renderInput={(params) => <TextField {...params} size="small" variant="outlined" />}
+                    options={itemList.data}
+                    getOptionLabel={(option) => option.label}
+                    onChange={(e, options) =>{  if(options){ setValue(`inventory_items.${index}.item`, options.value); }else{ setValue(`inventory_items.${index}.item`, ''); }  }}
+                    renderInput={(params) => <TextField {...params} label="Select Item" size="small" variant="outlined" />}
                   />
                 </div>
                 <div className={`${styles.InputAreaUnit}`}>
                   <label className={`${styles.FormLabel}`}>Units</label>
-                  <TextField className="LoginInput" id="outlined-basic" size="small" variant="outlined" />
+                  <Controller render={({ field }) => <TextField {...field} value={field.value} onChange={(e) =>{  field.onChange(e.target.value); }} id="outlined-basic" type={'number'} variant="outlined" size="small" className='LoginInput'  />  } name={`inventory_items.${index}.unit`} control={control} />
                 </div>
 
-              </div>
-
-              <div className={`${styles.LoginInput}`}>
-
-                <div className={`${styles.InputArea}`}>
-                  <label className={`${styles.FormLabel}`}>Select Item</label>
-                  <Autocomplete className="LoginInput"
-                    id="combo-box-demo"
-                    options={top100Films}
-                    getOptionLabel={(option) => option.title}
-                    renderInput={(params) => <TextField {...params} size="small" variant="outlined" />}
-                  />
-                </div>
-                <div className={`${styles.InputAreaUnit}`}>
-                  <label className={`${styles.FormLabel}`}>Units</label>
-                  <TextField className="LoginInput" id="outlined-basic" size="small" variant="outlined" />
-                </div>
-
-              </div>
+              </div>)
+              })}
 
               <div className={`${styles.LoginInput}`}>
                 <div className={`${styles.InputArea}`}>
-                  <Button className={`${styles.LoginBU}`}><Plus/></Button>
+                  <Button  onClick={() => { append(); }} className={`${styles.LoginBU}`}><Plus/></Button>
                 </div>
               </div>
 
@@ -196,6 +173,8 @@ function Add() {
                   <Button type="submit" className="LoginBU">Submit</Button>
                 </div>
               </div>
+
+              </form>
 
             </div>
           </div>

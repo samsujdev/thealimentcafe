@@ -208,3 +208,7 @@ td p.Paid {
     white-space: nowrap !important;
     display: block !important;
 }
+
+.DialogNew{
+    background-color: #aaa;
+}

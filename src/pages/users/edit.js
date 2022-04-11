@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from 'react';
 import styles from './adduser.module.css';
 import { ArrowLeft } from 'react-feather';
-import { TextField, Button, Snackbar } from '@material-ui/core';
+import { TextField, Button, Snackbar, FormControlLabel,Switch } from '@material-ui/core';
 import { useForm,Controller } from "react-hook-form";
 import axios from 'axios';
 import Select from 'react-select';
@@ -11,9 +11,9 @@ import withAuth from "../../components/withAuth";
 import { useHistory,Link,useParams } from "react-router-dom";
 
 const postList = [
+  {label:'Super Admin',value:'Super Admin'},
   {label:'Admin',value:'Admin'},
   {label:'Store Manager',value:'Store Manager'},
-  {label:'Cook',value:'Cook'},
 ]
 
 function EditUser() {
@@ -22,6 +22,8 @@ function EditUser() {
   const { register, handleSubmit, formState: { errors },setValue,control } = useForm();
   const [userCall,setUserCall] = useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [isPassword, setIsPassword] = React.useState(false);
+  const [isStatus, setIsStatus] = React.useState(false);
   
 
   const [state, setState] = React.useState({
@@ -55,7 +57,11 @@ function EditUser() {
         setValue('email',resData.email);
         setValue('area',resData.area);
         setValue('other',resData.other);
-        setValue('status',resData.status);
+        //setValue('status',resData.status);
+        
+        if(resData.status === 0){
+          setIsStatus(true);
+        }
 
       }).catch(err =>{
         setUserCall(false);
@@ -69,6 +75,11 @@ function EditUser() {
   });
 
   const onSubmit = data => {
+    if(data.status){
+      data = {...data,status:0};
+    }else{
+      data = {...data,status:1};
+    }
     setLoading(true);
     axios.put(process.env.REACT_APP_APIURL+'v1/users/'+id,data)
     .then(res => {
@@ -158,25 +169,41 @@ function EditUser() {
               </div>
             </div>
             {/* ************************Not maindate field************************ */}
-{/*
-            <div className={(errors.password)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
+
+            <div className={`${styles.LoginInput}`}>
+              <div className={`${styles.InputArea}`}>
+                <input name="is_password" type="checkbox" {...register('is_password')} onChange={(e)=> setIsPassword(e.target.checked)} />
+                <label className={`${styles.FormLabel}`}>Change Password?</label>
+              </div>
+            </div>
+
+            {isPassword && <div className={(errors.password)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
                 <label className={`${styles.FormLabel}`}>Password *</label>
                 <TextField type="password" id="outlined-basic8" variant="outlined" size="small" className='LoginInput'  {...register("password", { required: true })} autoComplete="off" />
                 {errors.password && <p className="LoginErrorText">Password Can't Be Blank</p>}
               </div>
-            </div>
-*/}
-            {/* ************************Only for Edit and add a snackbar message when user will archive************************ */}
-           {/* <div className={`${styles.LoginInput}`}>
+            </div>}
+
+          {/* ************************Only for Edit and add a snackbar message when user will archive************************ */}
+          {(isStatus === true) && <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <FormControlLabel className="ToggleSwitch"
-                  control={(statusSw)?<Switch  defaultChecked onChange={handleChange} color="primary" {...register("status")} />:<Switch onChange={handleChange} color="primary" {...register("status")} />}
-                  label={(statusSw)?"Archive":"Active"}
+                <FormControlLabel className="ToggleSwitch" control={<Switch  defaultChecked color="primary" {...register("status")} />}
+                  label={"Archive"}
                 />
 
               </div>
-            </div>*/}
+            </div>}
+           
+            {(isStatus === false) && <div className={`${styles.LoginInput}`}>
+              <div className={`${styles.InputArea}`}>
+                <FormControlLabel className="ToggleSwitch" control={<Switch  color="primary" {...register("status")} />}
+                  label={"Archive"}
+                />
+
+              </div>
+            </div>}
+           
             {/* ************************Only for Edit and add a snackbar message when user will archive************************ */}
 
             <div className={`${styles.LoginInput}`}>

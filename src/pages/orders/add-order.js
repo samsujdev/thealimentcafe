@@ -12,11 +12,13 @@ import { useHistory,Link } from "react-router-dom";
 
 
 function AddOrder() {
+  const userDet = localStorage.getItem("userDet");
+  const userDetArr = JSON.parse(userDet);
   const router = useHistory();
   const { register, handleSubmit, control, setValue, getValues,formState: { errors } } = useForm({
     defaultValues: {
       menu_items: [{ unit: '' }],
-      payment_type: 'cash',
+      payment_type: 'Cash',
       is_paid:false,
       offer:0
     }
@@ -87,6 +89,7 @@ function AddOrder() {
   }
 
   const onSubmit = data => {
+    data = {...data,added_by:userDetArr.id};
     setLoading(true);
     let payLoad = data;
     payLoad = {
@@ -224,8 +227,8 @@ function AddOrder() {
               <Controller
                 render={({ field })=>
                   (<RadioGroup {...field} className="CheckboxGroup">
-                    <FormControlLabel value="cash" control={<Radio />} disabled={radioDisabled} label="Cash" />
-                    <FormControlLabel value="online" control={<Radio />} disabled={radioDisabled} label="Online" />
+                    <FormControlLabel value="Cash" control={<Radio />} disabled={radioDisabled} label="Cash" />
+                    <FormControlLabel value="Online" control={<Radio />} disabled={radioDisabled} label="Online" />
                   </RadioGroup>)
                 }
                 name="payment_type"

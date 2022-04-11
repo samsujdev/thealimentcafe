@@ -13,9 +13,12 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mate
 
 
 function ViewOrders() {
+  const userDet = localStorage.getItem("userDet");
+  const userDetArr = JSON.parse(userDet);
   const [orderList,setOrderList] = useState({'data':[],'loading':false});
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [loading, setLoading] = React.useState(false);
+  const [canId, setCanId] = React.useState(0);
 
   useEffect(() => {
     if(!orderList.loading){
@@ -48,12 +51,35 @@ function ViewOrders() {
   }
 
   const [open, setOpen] = React.useState(false);
-  const handleClickOpen = () => {
+  const handleClickOpen = (itemId) => {
+    setCanId(itemId);
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
+
+  const cancelOrder = () =>{
+    setOpen(false);
+    setLoading(true);
+    let status = 3;
+
+    axios.put(process.env.REACT_APP_APIURL+'v1/orders/'+canId,{status:status})
+    .then(res => {
+      let olist = orderList;
+      let tempData = orderList.data.map((item)=>{
+        if(item.id === canId){
+          return {...item,status:3};
+        }
+        return item;
+      });
+      olist = {...olist,'data':tempData};
+      setOrderList(olist);
+      setLoading(false);
+    }).catch(err =>{
+      setLoading(false);
+    });
+  }
 
   return (
     <div>
@@ -88,8 +114,8 @@ function ViewOrders() {
                   <th className='TextCenter'>Offer</th>
                   <th className='TextCenter'>Total</th>
                   <th className='TextCenter'>Status</th>
-                  <th className='TextCenter'>Emp.</th>
-                  <th className='TextCenter'>Cancel</th>
+                  {userDetArr.post === 'Super Admin' && <th className='TextCenter'>Emp.</th> }
+                  {userDetArr.post === 'Super Admin' && <th className='TextCenter'>Cancel</th>}
                 </tr>
                 {orderList.data.map((item,index)=>{
                   return (<tr>
@@ -124,16 +150,17 @@ function ViewOrders() {
                   {parseInt(item.status) === 0 && <p className='TextCenter'>Cooking</p>}
                   {parseInt(item.status) === 1 && <p className='TextCenter'>Ready</p>}
                   {parseInt(item.status) === 2 && <p className='TextCenter'>Delivered</p>}
+                  {parseInt(item.status) === 3 && <p className='TextCenter'>Cancelled</p>}
                   </td>
-                  <td>
-                    <p className='TextCenter'>TAC001</p>
-                  </td>
-                  <td>
+                  {userDetArr.post === 'Super Admin' && <td>
+                    <p className='TextCenter'>{item.empCode}</p>
+                  </td>}
+                  {userDetArr.post === 'Super Admin'&& <td>
                     <p className='TextCenter'>
-                      <Button onClick={handleClickOpen} className={`${styles.CancelBU}`}><X/></Button>
+                      {parseInt(item.status) !== 3 && <Button onClick={handleClickOpen.bind(this,item.id)} className={`${styles.CancelBU}`}><X/></Button>}
                       {/* NA */}
                     </p>
-                  </td>
+                  </td>}
                 </tr>)
                 })}
 
@@ -166,7 +193,7 @@ function ViewOrders() {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>No</Button>
-            <Button onClick={handleClose} autoFocus>
+            <Button onClick={cancelOrder} autoFocus>
               Yes
             </Button>
           </DialogActions>

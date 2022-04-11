@@ -7,6 +7,8 @@ import Header from "../../components/header";
 import { Link } from "react-router-dom";
 
 function Stock() {
+  const userDet = localStorage.getItem("userDet");
+  const userDetArr = JSON.parse(userDet);
   const [itemList,setItemList] = useState({'data':[],'loading':false});
 
   useEffect(() => {
@@ -47,7 +49,7 @@ function Stock() {
 
             <div className={`${styles.BodyHeadArea}`}>
               <Link to="/dashboard" className={`${styles.BackBU}`}><ArrowLeft/></Link>
-              <Link to="/stocks/add-item" className={`${styles.HomeMenuBU}`}><Plus/> Add Items</Link>
+              {userDetArr.post === 'Super Admin' && <Link to="/stocks/add-item" className={`${styles.HomeMenuBU}`}><Plus/> Add Items</Link>}
             </div>
 
             <div className={`${styles.TableContainer}`}>

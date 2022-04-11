@@ -7,6 +7,8 @@ import withAuth from "../../components/withAuth";
 import { Link } from "react-router-dom";
 
 function MenuList() {
+  const userDet = localStorage.getItem("userDet");
+  const userDetArr = JSON.parse(userDet);
   const [menuList,setMenuList] = useState({'data':[],'loading':false});
   useEffect(() => {
     
@@ -47,7 +49,7 @@ function MenuList() {
 
             <div className={`${styles.BodyHeadArea}`}>
               <Link to="/dashboard" className={`${styles.BackBU}`}><ArrowLeft/></Link>
-              <Link to="/menus/add" className={`${styles.HomeMenuBU}`}><FilePlus/> Create Menu</Link>
+              {userDetArr.post === 'Super Admin' && <Link to="/menus/add" className={`${styles.HomeMenuBU}`}><FilePlus/> Create Menu</Link>}
             </div>
 
             <div className={`${styles.TableContainer}`}>

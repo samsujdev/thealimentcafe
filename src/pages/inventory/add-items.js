@@ -1,29 +1,99 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import styles from './add-items.module.css';
 import withAuth from "../../components/withAuth";
 import Header from "../../components/header";
 import { Link } from "react-router-dom";
 import { ArrowLeft, FilePlus, AlertTriangle } from 'react-feather';
 import { Button, Dialog, TextField, DialogContent, DialogTitle, MenuItem, FormControl, Select } from '@material-ui/core';
+import axios from 'axios';
+import Loader from "../../components/loader";
+import moment from 'moment';
 
 function AddItems() {
-
+  const [selCat, setSelCat] = React.useState('');
+  const [itemName, setItemName] = React.useState('');
+  const [packOff, setPackOff] = React.useState('');
   const [open, setOpen] = React.useState(false);
+  const [categoryList,setCategoryList] = useState({'data':[],'loading':false});
+  const [itemList, setItemList] = useState({'data':[],'loading':false});
+  const [loading, setLoading] = React.useState(false);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+    setSelCat('');
+    setItemName('');
+    setPackOff('');
   };
 
-  const [selectCategory, setAge] = React.useState('');
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  useEffect(() => {
+    if(!categoryList.loading){
+      fetchInventoryCategories();
+    }
+    if(!itemList.loading){
+      fetchInventoryitems();
+    }
+  });
+
+  const fetchInventoryCategories = () =>{
+    let olist = itemList;
+    olist = {...olist,'loading':true};
+    setCategoryList(olist);
+    axios.get(process.env.REACT_APP_APIURL+'v1/inventory-categories',)
+    .then(res => {
+      let olist = {'data':res.data.data,'loading':true};
+      setCategoryList(olist);
+    }).catch(err =>{
+      let olist = categoryList;
+      olist = {...olist,'loading':true};
+      setCategoryList(olist);
+    });
+  }
+
+  const fetchInventoryitems = () =>{
+    let olist = categoryList;
+    olist = {...olist,'loading':true};
+    setItemList(olist);
+    axios.get(process.env.REACT_APP_APIURL+'v1/inventory-items',)
+    .then(res => {
+      let olist = {'data':res.data.data,'loading':true};
+      setItemList(olist);
+    }).catch(err =>{
+      let olist = categoryList;
+      olist = {...olist,'loading':true};
+      setItemList(olist);
+    });
+  }
+  
+  const changeCat = (event) => {
+    setSelCat(event.target.value);
   };
+
+  const addItem = () =>{
+    if(selCat === '' || itemName === '' || packOff === '')
+      return false;
+
+    setOpen(false);
+    setLoading(true);
+
+    axios.post(process.env.REACT_APP_APIURL+'v1/inventory-items',{category_id:selCat, item_name:itemName, packoff:packOff})
+    .then(res => {
+      setLoading(false);
+      let iList = itemList.data;
+      iList.push(res.data.data);
+      setItemList({'data':iList,'loading':false});
+    }).catch(err =>{
+      setLoading(false);
+      console.log(err);
+    });
+  }
 
   return (
     <div>
 
+        {loading && <Loader />}
         <Header />
 
         <div className="Body">
@@ -46,32 +116,22 @@ function AddItems() {
                   <th>Category</th>
                   <th className='TextCenter'>Date</th>
                 </tr>
-                <tr>
-                  <td><p>1</p></td>
-                  <td><p>Chicken</p></td>
-                  <td><p>Fresh</p></td>
-                  <td><p className='TextCenter'>02/03/2022</p></td>
-                </tr>
-                <tr>
-                  <td><p>2</p></td>
-                  <td><p>Vetki</p></td>
-                  <td><p>Fresh</p></td>
-                  <td><p className='TextCenter'>02/03/2022</p></td>
-                </tr>
-                <tr>
-                  <td><p>3</p></td>
-                  <td><p>Prawn</p></td>
-                  <td><p>Fresh</p></td>
-                  <td><p className='TextCenter'>02/03/2022</p></td>
-                </tr>
-                <tr>
+                {itemList.data.map((item,index)=>{
+                  return (<tr key={index}>
+                  <td><p>{(index+1)}</p></td>
+                  <td><p>{item.item_name}</p></td>
+                  <td><p>{item.category_name}</p></td>
+                  <td><p className='TextCenter'>{moment(item.created_at).format('DD/MM/YYYY')}</p></td>
+                </tr>)
+                })}
+                {!itemList.data.length && <tr>
                   <td colSpan={8}>
                     <div className={`${styles.NoDataFound}`}>
                       <AlertTriangle />
                       <p>No data Found</p>
                     </div>
                   </td>
-                </tr>
+                </tr>}
               </table>
             </div>
 
@@ -93,32 +153,33 @@ function AddItems() {
                 <FormControl variant="outlined" className="LoginInput BlIcon CusPadd">
                   <Select
                     
-                    value={selectCategory}
-                    onChange={handleChange}
+                    value={selCat}
+                    onChange={changeCat}
                     size="small"
                   >
-                    <MenuItem value="fresh">Fresh</MenuItem>
-                    <MenuItem value="spices">Spices</MenuItem>
-                    <MenuItem value="packing">Packing Materials</MenuItem>
+                    {categoryList.data.map((item,index)=>{
+                      return <MenuItem key={index} value={item.id}>{item.category_name}</MenuItem>
+                    })}
+
                   </Select>
                 </FormControl>
               </div>
             </div>
             <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <label className={`${styles.FormLabel}`}>Category Name</label>
-                <TextField id="outlined-basic1" variant="outlined" size="small" className='LoginInput' autoComplete="off" />
+                <label className={`${styles.FormLabel}`}>Item Name</label>
+                <TextField id="outlined-basic1" variant="outlined" size="small" className='LoginInput' autoComplete="off"  onChange={(e)=>setItemName(e.target.value)} />
               </div>
             </div>
             <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
                 <label className={`${styles.FormLabel}`}>Pack Off</label>
-                <TextField id="outlined-basic1" variant="outlined" size="small" className='LoginInput' autoComplete="off" />
+                <TextField id="outlined-basic1" variant="outlined" size="small" className='LoginInput' autoComplete="off"  onChange={(e)=>setPackOff(e.target.value)} />
               </div>
             </div>
             <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <Button type='submit' className="LoginBU">Submit</Button>
+                <Button type='button' onClick={addItem} className="LoginBU">Submit</Button>
               </div>
             </div>
           </DialogContent>

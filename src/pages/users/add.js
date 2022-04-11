@@ -12,9 +12,9 @@ import { useHistory,Link } from "react-router-dom";
 
 
 const postList = [
+  {label:'Super Admin',value:'Super Admin'},
   {label:'Admin',value:'Admin'},
   {label:'Store Manager',value:'Store Manager'},
-  {label:'Cook',value:'Cook'},
 ]
 
 function AddUser() {

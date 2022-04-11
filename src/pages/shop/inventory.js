@@ -1,11 +1,34 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import styles from './inventory.module.css';
 import withAuth from "../../components/withAuth";
 import Header from "../../components/header";
 import { Link } from "react-router-dom";
 import { ArrowLeft, FilePlus, AlertTriangle } from 'react-feather';
+import axios from 'axios';
 
 function Inventory() {
+  const [inventoryList, setInventoryList] = useState({'data':[],'loading':false});
+
+  useEffect(() => {
+    if(!inventoryList.loading){
+      fetchInventory();
+    }
+  });
+
+  const fetchInventory = () =>{
+    let olist = inventoryList;
+    olist = {...olist,'loading':true};
+    setInventoryList(olist);
+    axios.get(process.env.REACT_APP_APIURL+'v1/inventories')
+    .then(res => {
+      let olist = {'data':res.data.data,'loading':true};
+      setInventoryList(olist);
+    }).catch(err =>{
+      let olist = inventoryList;
+      olist = {...olist,'loading':false};
+      setInventoryList(olist);
+    });
+  }
 
   return (
     <div>
@@ -28,44 +51,31 @@ function Inventory() {
               <table>
                 <tr>
                   <th>S.N.</th>
+                  <th>Name</th>
                   <th>Category</th>
-                  <th>Items</th>
+                  <th className='TextCenter'>Pake Off</th>
                   <th className='TextCenter'>Unit</th>
-                  <th className='TextCenter'>Pack Off</th>
-                  <th className='TextCenter'>Date</th>
+                  {/*<th className='TextCenter'>Date</th>*/}
                 </tr>
-                <tr>
-                  <td><p>1</p></td>
-                  <td><p>Fresh</p></td>
-                  <td><p>Chicken</p></td>
-                  <td><p className='TextCenter'>1</p></td>
-                  <td><p className='TextCenter'>1</p></td>
-                  <td><p className='TextCenter'>02/03/2022</p></td>
-                </tr>
-                <tr>
-                  <td><p>2</p></td>
-                  <td><p>Packing Materials</p></td>
-                  <td><p>250ml Flat Container</p></td>
-                  <td><p className='TextCenter'>1</p></td>
-                  <td><p className='TextCenter'>5</p></td>
-                  <td><p className='TextCenter'>02/03/2022</p></td>
-                </tr>
-                <tr>
-                  <td><p>3</p></td>
-                  <td><p>Packing Materials</p></td>
-                  <td><p>72mtr Foil Roll</p></td>
-                  <td><p className='TextCenter'>1</p></td>
-                  <td><p className='TextCenter'>1</p></td>
-                  <td><p className='TextCenter'>02/03/2022</p></td>
-                </tr>
-                <tr>
-                  <td colSpan={8}>
+                {inventoryList.data.map((item,index)=>{
+                  return (<tr key={index}>
+                  <td><p>{index+1}</p></td>
+                  <td><p>{item.item_name}</p></td>
+                  <td><p>{item.category_name}</p></td>
+                  <td><p className='TextCenter'>{item.packoff}</p></td>
+                  <td><p className='TextCenter'>{item.current_unit}</p></td>
+                  {/*<td><p className='TextCenter'>{moment(item.created_at).format('DD/MM/YYYY')}</p></td>*/}
+                </tr>)
+                })}
+
+                {!inventoryList.data.length && <tr>
+                  <td colSpan={6}>
                     <div className={`${styles.NoDataFound}`}>
                       <AlertTriangle />
                       <p>No data Found</p>
                     </div>
                   </td>
-                </tr>
+                </tr>}
               </table>
             </div>
 

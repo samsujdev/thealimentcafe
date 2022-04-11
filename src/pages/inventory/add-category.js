@@ -1,24 +1,72 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import styles from './add-category.module.css';
 import withAuth from "../../components/withAuth";
 import Header from "../../components/header";
 import { Link } from "react-router-dom";
 import { ArrowLeft, FilePlus, AlertTriangle } from 'react-feather';
 import { Button, Dialog, TextField, DialogContent, DialogTitle } from '@material-ui/core';
+import axios from 'axios';
+import Loader from "../../components/loader";
+import moment from 'moment';
 
 function AddCategory() {
-
+  const [catName, setCatName] = React.useState('');
   const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [categoryList,setCategoryList] = useState({'data':[],'loading':false});
+
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
+    setCatName('');
     setOpen(false);
   };
+
+  useEffect(() => {
+    if(!categoryList.loading){
+      fetchInventoryCategories();
+    }
+  });
+
+  const fetchInventoryCategories = () =>{
+    let olist = categoryList;
+    olist = {...olist,'loading':true};
+    setCategoryList(olist);
+    axios.get(process.env.REACT_APP_APIURL+'v1/inventory-categories',)
+    .then(res => {
+      let olist = {'data':res.data.data,'loading':true};
+      setCategoryList(olist);
+    }).catch(err =>{
+      let olist = categoryList;
+      olist = {...olist,'loading':true};
+      setCategoryList(olist);
+    });
+  }
+
+  const addCategory = () =>{
+    if(catName === '')
+      return false;
+
+    setOpen(false);
+    setLoading(true);
+
+    axios.post(process.env.REACT_APP_APIURL+'v1/inventory-categories',{category_name:catName})
+    .then(res => {
+      setLoading(false);
+      let catList = categoryList.data;
+      catList.push(res.data.data);
+      setCategoryList({'data':catList,'loading':false});
+    }).catch(err =>{
+      setLoading(false);
+      console.log(err);
+    });
+  }
 
   return (
     <div>
 
+        {loading && <Loader />}
         <Header />
 
         <div className="Body">
@@ -41,32 +89,22 @@ function AddCategory() {
                   <th className='TextCenter'>Items</th>
                   <th className='TextCenter'>Date</th>
                 </tr>
-                <tr>
-                  <td><p>1</p></td>
-                  <td><p>Fresh</p></td>
-                  <td><p className='TextCenter'>20</p></td>
-                  <td><p className='TextCenter'>02/03/2022</p></td>
-                </tr>
-                <tr>
-                  <td><p>2</p></td>
-                  <td><p>Spices</p></td>
-                  <td><p className='TextCenter'>57</p></td>
-                  <td><p className='TextCenter'>02/03/2022</p></td>
-                </tr>
-                <tr>
-                  <td><p>3</p></td>
-                  <td><p>Packing Materials</p></td>
-                  <td><p className='TextCenter'>17</p></td>
-                  <td><p className='TextCenter'>02/03/2022</p></td>
-                </tr>
-                <tr>
+                {categoryList.data.map((item,index)=>{
+                  return (<tr key={index}>
+                    <td><p>{(index+1)}</p></td>
+                    <td><p>{item.category_name}</p></td>
+                    <td><p className='TextCenter'>{item.items}</p></td>
+                    <td><p className='TextCenter'>{moment(item.created_at).format('DD/MM/YYYY')}</p></td>
+                  </tr>)
+                })}
+                {!categoryList.data.length && <tr>
                   <td colSpan={8}>
                     <div className={`${styles.NoDataFound}`}>
                       <AlertTriangle />
                       <p>No data Found</p>
                     </div>
                   </td>
-                </tr>
+                </tr>}
               </table>
             </div>
 
@@ -85,12 +123,12 @@ function AddCategory() {
             <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
                 <label className={`${styles.FormLabel}`}>Category Name</label>
-                <TextField id="outlined-basic1" variant="outlined" size="small" className='LoginInput' autoComplete="off" />
+                <TextField id="outlined-basic1" variant="outlined" size="small" className='LoginInput' autoComplete="off" onChange={(e)=>setCatName(e.target.value)} />
               </div>
             </div>
             <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <Button type='submit' className="LoginBU">Submit</Button>
+                <Button type='button' onClick={addCategory} className="LoginBU">Submit</Button>
               </div>
             </div>
           </DialogContent>
