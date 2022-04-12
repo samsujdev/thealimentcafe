@@ -55,6 +55,12 @@ a {
   font-weight: 300;
 }
 
+.LoginInput.Black .MuiInputBase-root,
+.LoginInput.Black .MuiFormLabel-root {
+  color: #000;
+  font-weight: 400;
+}
+
 .Error .LoginInput .MuiFormLabel-root {
   color: #ff0000;
 }
@@ -198,8 +204,12 @@ a {
   border-radius: 30px !important;
 }
 
-.ToggleSwitch .MuiSwitch-colorPrimary.Mui-checked + .MuiSwitch-track {
+.ToggleSwitch .MuiSwitch-colorPrimary + .MuiSwitch-track {
   background-color: #e1e1e1 !important;
+}
+
+.ToggleSwitch .MuiSwitch-colorPrimary.Mui-checked + .MuiSwitch-track {
+  background-color: #ff0000 !important;
 }
 
 .MuiSnackbarContent-root {
@@ -216,6 +226,11 @@ a {
 .MuiSelect-icon,
 .MuiSvgIcon-root {
   color: rgb(255 255 255 / 54%) !important;
+}
+
+.Popup .MuiSelect-icon,
+.Popup .MuiSvgIcon-root {
+  color: rgb(255 170 0) !important;
 }
 
 .LoginInput.BlIcon .MuiSelect-icon,
@@ -254,7 +269,11 @@ a {
 
 .CheckBox.MuiFormControlLabel-root .MuiFormControlLabel-label,
 .CheckboxGroup .MuiFormControlLabel-root .MuiFormControlLabel-label {
-  color: #e1e1e1 !important;
+  color: #fff !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 14px;
+  line-height: 30px;
+  font-weight: 400;
 }
 
 .MuiFormGroup-root.CheckboxGroup {

@@ -216,21 +216,22 @@ class Order extends React.Component {
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
+          className="Popup"
           
         >
-          <DialogTitle className={`${styles.DialogNew}`}>
+          <DialogTitle>
             Payment Type
           </DialogTitle>
-          <DialogContent className={`${styles.DialogNew}`}>
-            Select your payment type
+          <DialogContent>
             <FormControl>
               <RadioGroup defaultValue={this.state.paymentType} name="payment_type" onChange={this.cngPaymentType}>
+                <FormControlLabel value="Unpaid" control={<Radio />} label="Unpaid" />
                 <FormControlLabel value="Cash" control={<Radio />} label="Cash" />
                 <FormControlLabel value="Online" control={<Radio />} label="Online" />
               </RadioGroup>
             </FormControl>
           </DialogContent>
-          <DialogActions className={`${styles.DialogNew}`}>
+          <DialogActions>
             <Button onClick={this.setPayment} autoFocus>
               OK
             </Button>

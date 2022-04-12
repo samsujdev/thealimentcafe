@@ -84,6 +84,12 @@
     min-width: 130px;
 }
 
+.TableContainer table tr td:nth-child(2) p {
+    width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .TableContainer table tr td:nth-child(3) {
     min-width: 150px;
 }

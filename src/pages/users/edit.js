@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from 'react';
 import styles from './adduser.module.css';
 import { ArrowLeft } from 'react-feather';
-import { TextField, Button, Snackbar, FormControlLabel,Switch } from '@material-ui/core';
+import { TextField, Button, Snackbar, FormControlLabel, Switch, Checkbox } from '@material-ui/core';
 import { useForm,Controller } from "react-hook-form";
 import axios from 'axios';
 import Select from 'react-select';
@@ -172,8 +172,12 @@ function EditUser() {
 
             <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <input name="is_password" type="checkbox" {...register('is_password')} onChange={(e)=> setIsPassword(e.target.checked)} />
-                <label className={`${styles.FormLabel}`}>Change Password?</label>
+                <FormControlLabel className='CheckBox'
+                  control={<Checkbox {...register('is_password')} onChange={(e)=> setIsPassword(e.target.checked)} name="checkedA" />}
+                  label="Change Password?"
+                />
+                {/* <input name="is_password" type="checkbox" {...register('is_password')} onChange={(e)=> setIsPassword(e.target.checked)} /> */}
+                {/* <label className={`${styles.FormLabel}`}>Change Password?</label> */}
               </div>
             </div>
 

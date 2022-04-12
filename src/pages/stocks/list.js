@@ -62,7 +62,6 @@ function Stock() {
                   <th>S.N.</th>
                   <th>Items</th>
                   <th className='TextCenter'>Units</th>
-                  <th className='TextCenter'>Emp.</th>
                 </tr>
 
                 {itemList.data.map((item,index)=>{
@@ -76,9 +75,6 @@ function Stock() {
                     </td>
                     <td>
                       <p className='TextCenter'>{item.live_stock}</p>
-                    </td>
-                    <td>
-                      <p className='TextCenter'>TAC001</p>
                     </td>
                   </tr>);
 

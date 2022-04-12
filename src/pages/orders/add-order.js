@@ -227,6 +227,7 @@ function AddOrder() {
               <Controller
                 render={({ field })=>
                   (<RadioGroup {...field} className="CheckboxGroup">
+                    <FormControlLabel value="Unpaid" control={<Radio />} disabled={radioDisabled} label="Unpaid" />
                     <FormControlLabel value="Cash" control={<Radio />} disabled={radioDisabled} label="Cash" />
                     <FormControlLabel value="Online" control={<Radio />} disabled={radioDisabled} label="Online" />
                   </RadioGroup>)

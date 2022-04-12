@@ -150,7 +150,7 @@ function AddItems() {
             <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
                 <label className={`${styles.FormLabel}`}>Category Name</label>
-                <FormControl variant="outlined" className="LoginInput BlIcon CusPadd">
+                <FormControl variant="outlined" className="LoginInput Black BlIcon CusPadd">
                   <Select
                     
                     value={selCat}
@@ -168,13 +168,13 @@ function AddItems() {
             <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
                 <label className={`${styles.FormLabel}`}>Item Name</label>
-                <TextField id="outlined-basic1" variant="outlined" size="small" className='LoginInput' autoComplete="off"  onChange={(e)=>setItemName(e.target.value)} />
+                <TextField id="outlined-basic1" variant="outlined" size="small" className='LoginInput Black' autoComplete="off"  onChange={(e)=>setItemName(e.target.value)} />
               </div>
             </div>
             <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
                 <label className={`${styles.FormLabel}`}>Pack Off</label>
-                <TextField id="outlined-basic1" variant="outlined" size="small" className='LoginInput' autoComplete="off"  onChange={(e)=>setPackOff(e.target.value)} />
+                <TextField id="outlined-basic1" variant="outlined" size="small" className='LoginInput Black' autoComplete="off"  onChange={(e)=>setPackOff(e.target.value)} />
               </div>
             </div>
             <div className={`${styles.LoginInput}`}>

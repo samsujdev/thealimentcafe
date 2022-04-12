@@ -60,7 +60,7 @@ function List() {
                   options={inventoryItems}
                   getOptionLabel={(option) => option.label}
                   onChange={(e, options) =>{  if(options){ setSelectItem(options.value); }else{  setSelectItem(0); }}}
-                  renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+                  renderInput={(params) => <TextField {...params} label="Type of Inventory" variant="outlined" />}
                 />
               </div>
               <div className={`${styles.SalesDropDownDiv}`}>

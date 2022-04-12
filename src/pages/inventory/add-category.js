@@ -123,7 +123,7 @@ function AddCategory() {
             <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
                 <label className={`${styles.FormLabel}`}>Category Name</label>
-                <TextField id="outlined-basic1" variant="outlined" size="small" className='LoginInput' autoComplete="off" onChange={(e)=>setCatName(e.target.value)} />
+                <TextField id="outlined-basic1" variant="outlined" size="small" className='LoginInput Black' autoComplete="off" onChange={(e)=>setCatName(e.target.value)} />
               </div>
             </div>
             <div className={`${styles.LoginInput}`}>

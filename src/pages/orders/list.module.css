@@ -212,3 +212,23 @@ td p.Paid {
 .DialogNew{
     background-color: #aaa;
 }
+
+@media (min-width: 360px) {
+    .Stock {
+        width: 50%;
+    }
+}
+
+@media (min-width: 480px) {
+    .Stock {
+        width: 33.33%;
+    }
+}
+
+@media (min-width: 576px) {}
+
+@media (min-width: 768px) {
+    .Stock {
+        width: 25%;
+    }
+}
