@@ -22,7 +22,7 @@ function Home() {
               {/* ********************User name should be visible on span area*************** */}
               {userDetArr.post === 'Super Admin' && <Link to="/users/list" className={`${styles.HomeMenuBU}`}>USER</Link>}
               {(userDetArr.post === 'Super Admin' || userDetArr.post === 'Admin') && <Link to="/orders/view" className={`${styles.HomeMenuBU}`}>VIEW ORDER</Link>}
-              {(userDetArr.post === 'Super Admin' || userDetArr.post === 'Store Manager') && <Link to="/sales" className={`${styles.HomeMenuBU}`}>SALES</Link>}
+              {(userDetArr.post === 'Super Admin' || userDetArr.post === 'Admin' || userDetArr.post === 'Store Manager') && <Link to="/sales" className={`${styles.HomeMenuBU}`}>SALES</Link>}
               {(userDetArr.post === 'Super Admin' || userDetArr.post === 'Admin') && <Link to="/stocks/list" className={`${styles.HomeMenuBU}`}>STOCK</Link>}
               {(userDetArr.post === 'Super Admin' || userDetArr.post === 'Admin') && <Link to="/menus/list" className={`${styles.HomeMenuBU}`}>MENU</Link>}
 

@@ -48,12 +48,13 @@ class Order extends React.Component {
     this.setState({...this.state,open:false});
   }
 
-  selPaymentType = (event,itemId)=>{
-    if(event.target.checked){
+  selPaymentType = (event,item)=>{
+    this.setState({...this.state,open:true,selId:item.id,paymentType:item.payment_type});
+    /*if(event.target.checked){
       this.setState({...this.state,open:true,selId:itemId});
     }else{
       this.setState({...this.state,open:false,selId:0});
-    }
+    }*/
   }
 
   cngPaymentType = (event) =>{
@@ -168,8 +169,9 @@ class Order extends React.Component {
                     <p className='TextCenter'>{item.totalamount}</p>
                   </td>
                   <td>
-                    {parseInt(item.is_paid) === 1 && <p className={`${styles.Paid} TextCenter`}>{item.payment_type}</p>}
-                    {parseInt(item.is_paid) === 0 && <p className='TextCenter'>
+                    {item.payment_type === 'Unpaid' && <p className={`TextCenter`} onClick={(e)=>this.selPaymentType(e,item)}>{item.payment_type}</p>}
+                    {item.payment_type !== 'Unpaid' && <p className={`${styles.Paid} TextCenter`} onClick={(e)=>this.selPaymentType(e,item)}>{item.payment_type}</p>}
+                    {/*parseInt(item.is_paid) === 0 && <p className='TextCenter'>
                       <FormControlLabel
                         control={
                           <Checkbox
@@ -179,12 +181,12 @@ class Order extends React.Component {
                           />
                         }
                       />
-                    </p>}
+                    </p>*/}
                   </td>
                   <td>
                   {parseInt(item.status) === 0 && <p className='TextCenter'>Cooking</p>}
-                  {(parseInt(item.status) === 1 && parseInt(item.is_paid) === 0) && <p className='TextCenter'>Ready</p>}
-                  {(parseInt(item.status) === 1 && parseInt(item.is_paid) === 1) && <p className='TextCenter'><FormControlLabel
+                  {(parseInt(item.status) === 1 && item.payment_type === 'Unpaid') && <p className='TextCenter'>Ready</p>}
+                  {(parseInt(item.status) === 1 && item.payment_type !== 'Unpaid') && <p className='TextCenter'><FormControlLabel
                         control={
                           <Checkbox
                             onChange={(e)=>this.setDelivered(e,item.id)}
