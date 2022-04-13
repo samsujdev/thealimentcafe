@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from 'react';
 import styles from './add-order.module.css';
 import { ArrowLeft, Plus } from 'react-feather';
-import { TextField, Button, FormControlLabel, Checkbox, Radio, RadioGroup } from '@material-ui/core';
+import { TextField, Button, FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import axios from 'axios';
 import { useForm,Controller,useFieldArray } from "react-hook-form";
@@ -18,8 +18,7 @@ function AddOrder() {
   const { register, handleSubmit, control, setValue, getValues,formState: { errors } } = useForm({
     defaultValues: {
       menu_items: [{ unit: '' }],
-      payment_type: 'Cash',
-      is_paid:false,
+      payment_type: 'Unpaid',
       offer:0
     }
   });
@@ -27,7 +26,6 @@ function AddOrder() {
   const [menuList,setMenuList] = useState({'data':[],'loading':false});
   const [subTotalAmount,setSubTotalAmount] = useState(0);
   const [discountAmount,setDiscountAmount] = useState(0);
-  const [radioDisabled,setRadioDisabled] = useState(true);
   const [loading, setLoading] = React.useState(false);
 
   useEffect(() => {
@@ -94,7 +92,7 @@ function AddOrder() {
     let payLoad = data;
     payLoad = {
       ...payLoad,
-      is_paid: (payLoad.is_paid)?1:0,
+      is_paid: 0,
       subamount:subTotalAmount,
       discount: discountAmount
     }
@@ -200,7 +198,7 @@ function AddOrder() {
             </div>
 
             <div className={`${styles.LoginInput}`}>
-              <div className={`${styles.InputArea}`}>
+              {/*<div className={`${styles.InputArea}`}>
               <Controller
               control={control}
               name="is_paid"
@@ -222,14 +220,14 @@ function AddOrder() {
               />
             )}
           />
-          </div>
+          </div>*/}
               <div className={`${styles.CheckboxSec}`}>
               <Controller
                 render={({ field })=>
                   (<RadioGroup {...field} className="CheckboxGroup">
-                    <FormControlLabel value="Unpaid" control={<Radio />} disabled={radioDisabled} label="Unpaid" />
-                    <FormControlLabel value="Cash" control={<Radio />} disabled={radioDisabled} label="Cash" />
-                    <FormControlLabel value="Online" control={<Radio />} disabled={radioDisabled} label="Online" />
+                    <FormControlLabel value="Unpaid" control={<Radio />} label="Unpaid" />
+                    <FormControlLabel value="Cash" control={<Radio />}  label="Cash" />
+                    <FormControlLabel value="Online" control={<Radio />}  label="Online" />
                   </RadioGroup>)
                 }
                 name="payment_type"
