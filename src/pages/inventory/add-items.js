@@ -113,6 +113,7 @@ function AddItems() {
                 <tr>
                   <th>S.N.</th>
                   <th>Items</th>
+                  <th>Pack Off</th>
                   <th>Category</th>
                   <th className='TextCenter'>Date</th>
                 </tr>
@@ -120,6 +121,7 @@ function AddItems() {
                   return (<tr key={index}>
                   <td><p>{(index+1)}</p></td>
                   <td><p>{item.item_name}</p></td>
+                  <td><p>50Pcs</p></td>
                   <td><p>{item.category_name}</p></td>
                   <td><p className='TextCenter'>{moment(item.created_at).format('DD/MM/YYYY')}</p></td>
                 </tr>)
