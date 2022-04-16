@@ -177,3 +177,7 @@
     color: #000;
     margin: 0;
 }
+
+.TableContainer table tr.StockOut td p {
+    color: #575757;;
+}

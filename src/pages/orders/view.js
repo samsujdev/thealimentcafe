@@ -114,6 +114,8 @@ function ViewOrders() {
                   <th className='TextCenter'>Offer</th>
                   <th className='TextCenter'>Total</th>
                   <th className='TextCenter'>Status</th>
+                  <th className='TextCenter'>Ord. In</th>
+                  <th className='TextCenter'>Ord. Out</th>
                   {userDetArr.post === 'Super Admin' && <th className='TextCenter'>Emp.</th> }
                   {userDetArr.post === 'Super Admin' && <th className='TextCenter'>Cancel</th>}
                 </tr>
@@ -153,6 +155,12 @@ function ViewOrders() {
                   {parseInt(item.status) === 3 && <p className='TextCenter'>Cancelled</p>}
                   </td>
                   {userDetArr.post === 'Super Admin' && <td>
+                    <p className='TextCenter'>07:30 PM</p>
+                  </td>}
+                  {userDetArr.post === 'Super Admin' && <td>
+                    <p className='TextCenter'>07:53 PM</p>
+                  </td>}
+                  {userDetArr.post === 'Super Admin' && <td>
                     <p className='TextCenter'>{item.empCode}</p>
                   </td>}
                   {userDetArr.post === 'Super Admin'&& <td>
@@ -165,7 +173,7 @@ function ViewOrders() {
                 })}
 
                 {!orderList.data.length && <tr>
-                  <td colSpan={10}>
+                  <td colSpan={12}>
                     <div className={`${styles.NoDataFound}`}>
                       <AlertTriangle />
                       <p>No data Found</p>
