@@ -10,7 +10,8 @@ import axios from 'axios';
 
 function List() {
   const [inventoryList, setInventoryList] = useState({'data':[],'loading':false});
-  const [inventoryItems, setInventoryItems] = useState([]);
+  const [filterItems, setFilterItems] = useState([]);
+  const [tempIds, setTempIds] = useState([]);
   const [selectItem, setSelectItem] = useState(0);
 
   useEffect(() => {
@@ -29,9 +30,20 @@ function List() {
       setInventoryList(olist);
 
       let tempData = res.data.data.map(item=>{
-        return {label:item.item_name, value:item.id};
+        return {label:item.category_name, value:item.category_id};
       });
-      setInventoryItems(tempData);
+
+      let tempData2 = tempData.filter(item=>{
+        let tmpIds = tempIds;
+        if(!tmpIds.includes(item.value)){
+          tempIds.push(item.value);
+          setTempIds(tmpIds);
+          return true;
+        }else{
+          return false;
+        }
+      });
+      setFilterItems(tempData2);
 
     }).catch(err =>{
       let olist = inventoryList;
@@ -57,7 +69,7 @@ function List() {
               <div className={`${styles.SalesDropDownDiv}`}>
                 <Autocomplete className="LoginInput"
                   id="combo-box-demo"
-                  options={inventoryItems}
+                  options={filterItems}
                   getOptionLabel={(option) => option.label}
                   onChange={(e, options) =>{  if(options){ setSelectItem(options.value); }else{  setSelectItem(0); }}}
                   renderInput={(params) => <TextField {...params} label="Type of Inventory" variant="outlined" />}
@@ -83,7 +95,7 @@ function List() {
                   if(selectItem === 0)
                     return true;
                     
-                  return item.id === selectItem;
+                  return item.category_id === selectItem;
                 })
                 .map((item,index)=>{
                   return (<tr key={index}>

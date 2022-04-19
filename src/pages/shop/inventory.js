@@ -5,9 +5,14 @@ import Header from "../../components/header";
 import { Link } from "react-router-dom";
 import { ArrowLeft, FilePlus, AlertTriangle } from 'react-feather';
 import axios from 'axios';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { TextField } from '@material-ui/core';
 
 function Inventory() {
   const [inventoryList, setInventoryList] = useState({'data':[],'loading':false});
+  const [filterItems, setFilterItems] = useState([]);
+  const [tempIds, setTempIds] = useState([]);
+  const [selectItem, setSelectItem] = useState(0);
 
   useEffect(() => {
     if(!inventoryList.loading){
@@ -23,6 +28,24 @@ function Inventory() {
     .then(res => {
       let olist = {'data':res.data.data,'loading':true};
       setInventoryList(olist);
+
+      let tempData = res.data.data.map(item=>{
+        return {label:item.category_name, value:item.category_id};
+      });
+
+      let tempData2 = tempData.filter(item=>{
+        let tmpIds = tempIds;
+        if(!tmpIds.includes(item.value)){
+          tempIds.push(item.value);
+          setTempIds(tmpIds);
+          return true;
+        }else{
+          return false;
+        }
+      });
+
+      setFilterItems(tempData2);
+
     }).catch(err =>{
       let olist = inventoryList;
       olist = {...olist,'loading':false};
@@ -44,6 +67,15 @@ function Inventory() {
 
             <div className={`${styles.BodyHeadArea}`}>
               <Link to="/dashboard" className={`${styles.BackBU}`}><ArrowLeft/></Link>
+              <div className={`${styles.SalesDropDownDiv}`}>
+                <Autocomplete className="LoginInput"
+                  id="combo-box-demo"
+                  options={filterItems}
+                  getOptionLabel={(option) => option.label}
+                  onChange={(e, options) =>{  if(options){ setSelectItem(options.value); }else{  setSelectItem(0); }}}
+                  renderInput={(params) => <TextField {...params} label="Type of Inventory" variant="outlined" />}
+                />
+              </div>
               <Link to="/shop-now" className={`${styles.HomeMenuBU}`}><FilePlus/> Shop Now</Link>
             </div>
 
@@ -57,7 +89,14 @@ function Inventory() {
                   <th className='TextCenter'>Unit</th>
                   {/*<th className='TextCenter'>Date</th>*/}
                 </tr>
-                {inventoryList.data.map((item,index)=>{
+                {inventoryList.data
+                .filter(item => {
+                  if(selectItem === 0)
+                    return true;
+                    
+                  return item.category_id === selectItem;
+                })
+                .map((item,index)=>{
                   return (<tr key={index}>
                   <td><p>{index+1}</p></td>
                   <td><p>{item.item_name}</p></td>

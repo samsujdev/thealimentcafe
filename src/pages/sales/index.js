@@ -13,7 +13,11 @@ import withAuth from "../../components/withAuth";
 import { Link } from "react-router-dom";
 
 function Sales() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000)));
+  const [endDate, setEndDate] = useState(new Date());
+  const [startDate2, setStartDate2] = useState(new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000)));
+  const [endDate2, setEndDate2] = useState(new Date());
+  const [menuId, setMenuId] = useState(0);
   const [filteBy, setFilterBy] = useState('date');
   const [orderList,setOrderList] = useState([]);
   const [menuList,setMenuList] = useState([{'data':[],'loading':false}]);
@@ -44,36 +48,58 @@ function Sales() {
 
     if(!menuList.loading){
       fetchMenus();
-      fetchOrdersByDate(selectedDate);
+      fetchOrdersByDate(startDate,endDate);
     }
 
   });
 
   const handleChange = (event) => {
+    setStartDate(new Date());
+    setEndDate(new Date());
     setOrderList([]);
     totalAmount = 0;
     setFilterBy(event.target.value);
     if(event.target.value === 'date'){
-      fetchOrdersByDate(selectedDate);
+      fetchOrdersByDate(startDate,endDate);
     }
   };
 
   const chnageMenu = (e,option)=>{
     if(option){
-      fetchOrdersByMenu(option.value);
+      setMenuId(option.value);
+      fetchOrdersByMenu(option.value,startDate2,endDate2);
     }
   }
 
-  const changeDate = (date) =>{
+  const changeDateNew1 = (sDate)=>{
     totalAmount = 0;
-    setSelectedDate(date);
-    fetchOrdersByDate(date);
+    fetchOrdersByDate(sDate,endDate);
   }
 
-  const fetchOrdersByDate = (seldDate) =>{
+  const changeDateNew2 = (eDate)=>{
+    totalAmount = 0;
+    fetchOrdersByDate(startDate,eDate);
+  }
+
+  const changeDateNew21 = (sDate)=>{
+    if(menuId){
+      totalAmount = 0;
+      fetchOrdersByMenu(menuId,sDate,endDate2);
+    }
+  }
+
+  const changeDateNew22 = (eDate)=>{
+    if(menuId){
+      totalAmount = 0;
+      fetchOrdersByMenu(menuId,startDate2,eDate);
+    }
+  }
+
+  const fetchOrdersByDate = (stDate,eDate) =>{
     setLoading(true);
-    let cDate = moment(seldDate).format('YYYY-MM-DD');
-    axios.get(process.env.REACT_APP_APIURL+'v1/sale-by-date/'+cDate)
+    let stDateNew = moment(stDate).format('YYYY-MM-DD');
+    let eDateNew = moment(eDate).format('YYYY-MM-DD');
+    axios.get(process.env.REACT_APP_APIURL+'v1/sale-by-date/'+stDateNew+'/'+eDateNew)
     .then(res => {
       setLoading(false);
       setOrderList(res.data.data);
@@ -83,9 +109,11 @@ function Sales() {
     });
   }
 
-  const fetchOrdersByMenu = (menuid) =>{
+  const fetchOrdersByMenu = (menuid,stDate,eDate) =>{
     setLoading(true);
-    axios.get(process.env.REACT_APP_APIURL+'v1/sale-by-menu/'+menuid)
+    let stDateNew = moment(stDate).format('YYYY-MM-DD');
+    let eDateNew = moment(eDate).format('YYYY-MM-DD');
+    axios.get(process.env.REACT_APP_APIURL+'v1/sale-by-menu/'+menuid+'/'+stDateNew+'/'+eDateNew)
     .then(res => {
       setLoading(false);
       setOrderList(res.data.data);
@@ -133,12 +161,20 @@ function Sales() {
                   renderInput={(params) => <TextField {...params} label="Choose" variant="outlined" />}
                   onChange={chnageMenu}
                 />
+                <div className={`${styles.ReactDatePicker}`}>
+                  <DatePicker className='ReactDatePickerBig' selected={startDate2} onChange={(date) => {changeDateNew21(date); setStartDate2(date);}} selectsStart startDate={startDate2} endDate={endDate2}  maxDate={new Date()} />
+                  <Calendar/>
+                  <DatePicker className='ReactDatePickerBig' selected={endDate2} onChange={(date) => {changeDateNew22(date); setEndDate2(date)}} selectsEnd startDate={startDate2} endDate={endDate2} minDate={startDate2} maxDate={new Date()} />
+                  <Calendar/>
+                </div>
               </div>}
               {(filteBy === 'date') && <div className={`${styles.SalesDropDownDiv}`}>
                 <div className={`${styles.ReactDatePicker}`}>
-                <DatePicker className='ReactDatePickerBig' selected={selectedDate} onChange={changeDate} />
-                <Calendar/>
-              </div>
+                  <DatePicker className='ReactDatePickerBig' selected={startDate} onChange={(date) => {changeDateNew1(date); setStartDate(date);}} selectsStart startDate={startDate} endDate={endDate}  maxDate={new Date()} />
+                  <Calendar/>
+                  <DatePicker className='ReactDatePickerBig' selected={endDate} onChange={(date) => {changeDateNew2(date); setEndDate(date)}} selectsEnd startDate={startDate} endDate={endDate} minDate={startDate} maxDate={new Date()} />
+                  <Calendar/>
+                </div>
               </div>}
             </div>
 

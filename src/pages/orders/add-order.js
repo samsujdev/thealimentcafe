@@ -15,7 +15,7 @@ function AddOrder() {
   const userDet = localStorage.getItem("userDet");
   const userDetArr = JSON.parse(userDet);
   const router = useHistory();
-  const { register, handleSubmit, control, setValue, getValues,formState: { errors } } = useForm({
+  const { register, handleSubmit, control, setValue, getValues,formState: { errors },clearErrors } = useForm({
     defaultValues: {
       menu_items: [{ unit: '' }],
       payment_type: 'Unpaid',
@@ -108,6 +108,10 @@ function AddOrder() {
 
   }
 
+  const onError = (err) =>{
+    console.log(err);
+  }
+
    
   return (
     <div>
@@ -124,7 +128,7 @@ function AddOrder() {
               <p className={`${styles.ViewUserTitle}`}>Take Order</p>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit,onError)}>
 
             <div className={(errors.name)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
@@ -134,8 +138,8 @@ function AddOrder() {
             </div>
 
             {fields.map((items,index)=>{
-              return (
-              <div key={index} className={(errors.menu_items)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
+              return (<>
+              <div key={index} className={(errors && errors.menu_items && errors.menu_items.length && errors.menu_items[index]?.item)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
               <Controller
                 render={({ field }) => <Autocomplete  {...field} className='LoginInput'
@@ -143,24 +147,29 @@ function AddOrder() {
                 id="combo-box-demo"
                 options={menuList.data}
                 getOptionLabel={(option) => option.label}
-                onChange={(e, options) =>{  if(options){ setValue(`menu_items.${index}.item`, options.value); setValue(`menu_items.${index}.price`, options.price); }else{ setValue(`menu_items.${index}.item`, 0); setValue(`menu_items.${index}.price`, 0); } selectMenu(); }}
+                onChange={(e, options) =>{  if(options){ setValue(`menu_items.${index}.item`, options.value); setValue(`menu_items.${index}.price`, options.price); clearErrors(`menu_items.${index}.item`); }else{ setValue(`menu_items.${index}.item`, 0); setValue(`menu_items.${index}.price`, 0); } selectMenu(); }}
                 renderInput={(params) => <TextField {...params} label="Select Item" size="small" variant="outlined" />}
               />  }
                 name={`menu_items.${index}.item`}
+                {...register(`menu_items.${index}.item`, { required: true })}
                 control={control}
               />
-        
+              {(errors && errors.menu_items && errors.menu_items.length && errors.menu_items[index]?.item) && <p className="LoginErrorText">Please select Item</p>}
               </div>
+              </div>
+              <div key={index} className={(errors && errors.menu_items && errors.menu_items.length && errors.menu_items[index]?.unit)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
+
               <div className={`${styles.InputAreaUnit}`}>
                  <Controller
                 render={({ field }) => <TextField {...field} value={field.value} onChange={(e) =>{  field.onChange(e.target.value); selectMenu(); }} id="outlined-basic" type={'number'} label="Unit" variant="outlined" size="small" className='LoginInput'  />  }
                 name={`menu_items.${index}.unit`}
+                {...register(`menu_items.${index}.unit`, { required: true,min:1 })}
                 control={control}
                 
               />          
-              <p className="LoginErrorText">Name Can&apos;t Be Blank</p>
+              {(errors && errors.menu_items && errors.menu_items.length && errors.menu_items[index]?.unit) && <p className="LoginErrorText">Unit must be a positive number</p>} 
               </div>
-            </div>);
+            </div></>);
             })}
 
             

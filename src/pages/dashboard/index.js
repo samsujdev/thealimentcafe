@@ -27,7 +27,7 @@ function Home() {
               {(userDetArr.post === 'Super Admin' || userDetArr.post === 'Store Manager') && <Link to="/shop/inventory" className={`${styles.HomeMenuBU}`}>SHOP</Link>}
               {userDetArr.post === 'Super Admin' && <Link to="/inventory/list" className={`${styles.HomeMenuBU}`}>INVENTORY</Link>}
               {(userDetArr.post === 'Super Admin' || userDetArr.post === 'Admin') && <Link to="/stocks/list" className={`${styles.HomeMenuBU}`}>STOCK</Link>}
-              {(userDetArr.post === 'Super Admin' || userDetArr.post === 'Admin') && <Link to="/menus/list" className={`${styles.HomeMenuBU}`}>MENU</Link>}
+              {(userDetArr.post === 'Super Admin' || userDetArr.post === 'Admin' || userDetArr.post === 'Store Manager') && <Link to="/menus/list" className={`${styles.HomeMenuBU}`}>MENU</Link>}
               {(userDetArr.post === 'Super Admin' || userDetArr.post === 'Store Manager') && <Link to="/orders/live" className={`${styles.HomeMenuBULive}`}>GO LIVE</Link>}
               {userDetArr.post === 'Super Admin' && <Link to="/users/list" className={`${styles.HomeMenuBU}`}>USER</Link>}
 

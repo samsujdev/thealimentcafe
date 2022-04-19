@@ -165,7 +165,7 @@ function ViewOrders() {
                   </td>}
                   {userDetArr.post === 'Super Admin'&& <td>
                     <p className='TextCenter'>
-                      {parseInt(item.status) !== 3 && <Button onClick={handleClickOpen.bind(this,item.id)} className={`${styles.CancelBU}`}><X/></Button>}
+                      {(parseInt(item.status) !== 3 && (moment().format('YYYY-MM-DD') === moment(selectedDate).format('YYYY-MM-DD'))) && <Button onClick={handleClickOpen.bind(this,item.id)} className={`${styles.CancelBU}`}><X/></Button>}
                       {/* NA */}
                     </p>
                   </td>}

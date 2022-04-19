@@ -8,6 +8,7 @@ import { Button, Dialog, TextField, DialogContent, DialogTitle, MenuItem, FormCo
 import axios from 'axios';
 import Loader from "../../components/loader";
 import moment from 'moment';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 function AddItems() {
   const [selCat, setSelCat] = React.useState('');
@@ -17,6 +18,8 @@ function AddItems() {
   const [categoryList,setCategoryList] = useState({'data':[],'loading':false});
   const [itemList, setItemList] = useState({'data':[],'loading':false});
   const [loading, setLoading] = React.useState(false);
+  const [filterItems, setFilterItems] = useState([]);
+  const [selectItem, setSelectItem] = useState(0);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -45,6 +48,10 @@ function AddItems() {
     .then(res => {
       let olist = {'data':res.data.data,'loading':true};
       setCategoryList(olist);
+      let tempData = res.data.data.map(item=>{
+        return {label:item.category_name, value:item.id};
+      });
+      setFilterItems(tempData);
     }).catch(err =>{
       let olist = categoryList;
       olist = {...olist,'loading':true};
@@ -105,6 +112,15 @@ function AddItems() {
 
             <div className={`${styles.BodyHeadArea}`}>
               <Link to="/inventory/create" className={`${styles.BackBU}`}><ArrowLeft/></Link>
+              <div className={`${styles.SalesDropDownDiv}`}>
+                <Autocomplete className="LoginInput"
+                  id="combo-box-demo"
+                  options={filterItems}
+                  getOptionLabel={(option) => option.label}
+                  onChange={(e, options) =>{  if(options){ setSelectItem(options.value); }else{  setSelectItem(0); }}}
+                  renderInput={(params) => <TextField {...params} label="Type of Inventory" variant="outlined" />}
+                />
+              </div>
               <Link onClick={handleClickOpen} className={`${styles.HomeMenuBU}`}><FilePlus/> Add Items</Link>
             </div>
 
@@ -117,7 +133,12 @@ function AddItems() {
                   <th>Category</th>
                   <th className='TextCenter'>Date</th>
                 </tr>
-                {itemList.data.map((item,index)=>{
+                {itemList.data.filter(item => {
+                  if(selectItem === 0)
+                    return true;
+                    
+                  return item.category_id === selectItem;
+                }).map((item,index)=>{
                   return (<tr key={index}>
                   <td><p>{(index+1)}</p></td>
                   <td><p>{item.item_name}</p></td>

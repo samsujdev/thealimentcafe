@@ -169,8 +169,10 @@ class Order extends React.Component {
                     <p className='TextCenter'>{item.totalamount}</p>
                   </td>
                   <td>
-                    {item.payment_type === 'Unpaid' && <p className={`TextCenter`} onClick={(e)=>this.selPaymentType(e,item)}>{item.payment_type}</p>}
-                    {item.payment_type !== 'Unpaid' && <p className={`${styles.Paid} TextCenter`} onClick={(e)=>this.selPaymentType(e,item)}>{item.payment_type}</p>}
+                    {((parseInt(item.status) === 2 || parseInt(item.status) === 3) && item.payment_type === 'Unpaid') && <p className={`TextCenter`}>{item.payment_type}</p>}
+                    {((parseInt(item.status) === 2 || parseInt(item.status) === 3) && item.payment_type !== 'Unpaid') && <p className={`${styles.Paid} TextCenter`}>{item.payment_type}</p>}
+                    {(parseInt(item.status) !== 2 && parseInt(item.status) !== 3 && item.payment_type === 'Unpaid') && <p className={`TextCenter`} onClick={(e)=>this.selPaymentType(e,item)}>{item.payment_type}</p>}
+                    {(parseInt(item.status) !== 2 && parseInt(item.status) !== 3 && item.payment_type !== 'Unpaid') && <p className={`${styles.Paid} TextCenter`} onClick={(e)=>this.selPaymentType(e,item)}>{item.payment_type}</p>}
                     {/*parseInt(item.is_paid) === 0 && <p className='TextCenter'>
                       <FormControlLabel
                         control={

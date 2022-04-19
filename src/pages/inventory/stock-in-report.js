@@ -11,23 +11,25 @@ import axios from 'axios';
 import Loader from "../../components/loader";
 
 function StockInReport() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000)));
+  const [endDate, setEndDate] = useState(new Date());
   const [inventoryList, setInventoryList] = useState({'data':[],'loading':false});
   const [loading, setLoading] = React.useState(false);
 
   useEffect(() => {
     if(!inventoryList.loading){
-      fetchInventory(selectedDate);
+      fetchInventory(startDate,endDate);
     }
   });
 
-  const fetchInventory = (seldDate) =>{
+  const fetchInventory = (stDate,eDate) =>{
     setLoading(true);
-    let cDate = moment(seldDate).format('YYYY-MM-DD');
+    let stDateNew = moment(stDate).format('YYYY-MM-DD');
+    let eDateNew = moment(eDate).format('YYYY-MM-DD');
     let olist = inventoryList;
     olist = {...olist,'loading':true};
     setInventoryList(olist);
-    axios.get(process.env.REACT_APP_APIURL+'v1/inventory/stock-in-report/'+cDate)
+    axios.get(process.env.REACT_APP_APIURL+'v1/inventory/stock-in-report/'+stDateNew+'/'+eDateNew)
     .then(res => {
       setLoading(false);
       let olist = {'data':res.data.data,'loading':true};
@@ -40,9 +42,12 @@ function StockInReport() {
     });
   }
 
-  const changeDate = (date) =>{
-    setSelectedDate(date);
-    fetchInventory(date);
+  const changeDateNew1 = (sDate)=>{
+    fetchInventory(sDate,endDate);
+  }
+
+  const changeDateNew2 = (eDate)=>{
+    fetchInventory(startDate,eDate);
   }
 
   return (
@@ -61,7 +66,9 @@ function StockInReport() {
             <div className={`${styles.BodyHeadArea}`}>
               <Link to="/inventory/list" className={`${styles.BackBU}`}><ArrowLeft/></Link>
               <div className={`${styles.ReactDatePicker}`}>
-                <DatePicker className='ReactDatePicker' selected={selectedDate} onChange={changeDate} />
+                <DatePicker className='ReactDatePicker' selected={startDate} onChange={(date) => {changeDateNew1(date); setStartDate(date);}} selectsStart startDate={startDate} endDate={endDate}  maxDate={new Date()} />
+                <Calendar/>
+                <DatePicker className='ReactDatePicker' selected={endDate} onChange={(date) => {changeDateNew2(date); setEndDate(date)}} selectsEnd startDate={startDate} endDate={endDate} minDate={startDate} maxDate={new Date()} />
                 <Calendar/>
               </div>
             </div>

@@ -60,7 +60,7 @@ function Shopnow() {
     .then(res => {
       setLoading(false);
       let tempData = res.data.data.map(item =>{
-        return {label:item.item_name,value:item.id};
+        return {label:item.item_name,value:item.id, current_unit:item.current_unit};
       });
       setItemList({'data':tempData,'loading':true});
     }).catch(err =>{
@@ -147,7 +147,7 @@ function Shopnow() {
                     <label className={`${styles.FormLabel}`}>Select Item</label>
                     <Autocomplete className="LoginInput"
                       id="combo-box-demo"
-                      options={itemList.data}
+                      options={itemList.data.filter(item => item.current_unit > 0 )}
                       getOptionLabel={(option) => option.label}
                       onChange={(e, options) =>{  if(options){ setValue(`inventory_items.${index}.item`, options.value); }else{ setValue(`inventory_items.${index}.item`, ''); }  }}
                       renderInput={(params) => <TextField {...params} label="Select Item" size="small" variant="outlined" />}
