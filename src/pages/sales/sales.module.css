@@ -1,5 +1,6 @@
 .BodyHeadArea {
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
     margin: 0 0 25px 0;
     align-items: center;
@@ -143,7 +144,10 @@
 
 .ReactDatePicker {
     position: relative;
-    width: 100%;
+    width: 350px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .ReactDatePicker svg {
@@ -177,20 +181,83 @@
     white-space: nowrap !important;
 }
 
+.SalesDateRange {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.SalesDateRange2 {
+    width: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.SalesDateRange .MenuDropDown {
+    width: 200px;
+    margin: 15px 0;
+}
+
+.DatePickerWidget {
+    width: 150px;
+    position: relative;
+    margin: 15px 0;
+}
+
+.DateRangeTo {
+    color: #fff;
+    margin: 0 20px;
+}
+
 @media (min-width: 360px) {
     .SalesDropDownDiv {
-        width: 150px;
+        width: 100%;
+    }
+    .SalesDateRange .MenuDropDown {
+        width: 100%;
+    }
+    .ReactDatePicker {
+        width: 100%;
+    }
+    .DatePickerWidget {
+        width: auto;
+    }
+    .DateRangeTo {
+        margin: 0 10px;
+    }
+    .SalesDateRange2 {
+        width: 100%;
     }
 }
 
 @media (min-width: 400px) {
-    .SalesDropDownDiv {
-        width: 170px;
+    .DateRangeTo {
+        margin: 0 15px;
     }
 }
 
 @media (min-width: 450px) {
+    .DateRangeTo {
+        margin: 0 20px;
+    }
+}
+
+@media (min-width: 600px) {
     .SalesDropDownDiv {
         width: 200px;
+    }
+    .SalesDateRange .MenuDropDown {
+        width: 200px;
+    }
+    .ReactDatePicker {
+        width: 350px;
+    }
+    .DatePickerWidget {
+        width: 150px;
+    }
+    .SalesDateRange2 {
+        width: auto;
     }
 }

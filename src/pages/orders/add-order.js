@@ -139,6 +139,7 @@ function AddOrder() {
 
             {fields.map((items,index)=>{
               return (<>
+              <div className={`${styles.ItemRow}`}>
               <div key={index} className={(errors && errors.menu_items && errors.menu_items.length && errors.menu_items[index]?.item)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
               <Controller
@@ -169,6 +170,7 @@ function AddOrder() {
               />          
               {(errors && errors.menu_items && errors.menu_items.length && errors.menu_items[index]?.unit) && <p className="LoginErrorText">Unit must be a positive number</p>} 
               </div>
+            </div>
             </div></>);
             })}
 

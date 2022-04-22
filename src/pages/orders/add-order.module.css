@@ -52,6 +52,22 @@
     display: flex;
 }
 
+.ItemRow {
+    width: 100%;
+	padding: 15px 0;
+    display: flex;
+}
+
+.ItemRow .LoginInput {
+    width: 100%;
+	padding: 0px 0;
+    display: flex;
+}
+
+.ItemRow .LoginInput:last-child {
+    width: 40%;
+}
+
 .InputArea {
 	width: 100%;
     display: flex;

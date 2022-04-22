@@ -60,16 +60,21 @@ function StockInReport() {
           <div className="Container">
 
             <div className={`${styles.BodyHeadArea}`}>
+              <Link to="/inventory/list" className={`${styles.BackBU}`}><ArrowLeft/></Link>
               <p className={`${styles.ViewUserTitle}`}>Stock In Report</p>
             </div>
 
-            <div className={`${styles.BodyHeadArea}`}>
-              <Link to="/inventory/list" className={`${styles.BackBU}`}><ArrowLeft/></Link>
+            <div className={`${styles.BodyHeadArea2}`}>
               <div className={`${styles.ReactDatePicker}`}>
-                <DatePicker className='ReactDatePicker' selected={startDate} onChange={(date) => {changeDateNew1(date); setStartDate(date);}} selectsStart startDate={startDate} endDate={endDate}  maxDate={new Date()} />
-                <Calendar/>
-                <DatePicker className='ReactDatePicker' selected={endDate} onChange={(date) => {changeDateNew2(date); setEndDate(date)}} selectsEnd startDate={startDate} endDate={endDate} minDate={startDate} maxDate={new Date()} />
-                <Calendar/>
+                <div className={`${styles.DatePickerWidget}`}>
+                  <DatePicker className='ReactDatePicker' selected={startDate} onChange={(date) => {changeDateNew1(date); setStartDate(date);}} selectsStart startDate={startDate} endDate={endDate}  maxDate={new Date()} />
+                  <Calendar/>
+                </div>
+                <p className={`${styles.DateRangeTo}`}>To</p>
+                <div className={`${styles.DatePickerWidget}`}>
+                  <DatePicker className='ReactDatePicker' selected={endDate} onChange={(date) => {changeDateNew2(date); setEndDate(date)}} selectsEnd startDate={startDate} endDate={endDate} minDate={startDate} maxDate={new Date()} />
+                  <Calendar/>
+                </div>
               </div>
             </div>
 

@@ -153,8 +153,8 @@ function Sales() {
                   </Select>
                 </FormControl>
               </div>
-              {(filteBy === 'menu') && <div className={`${styles.SalesDropDownDiv}`}>
-                <Autocomplete className="LoginInput"
+              {(filteBy === 'menu') && <div className={`${styles.SalesDateRange}`}>
+                <Autocomplete className={`${styles.MenuDropDown} LoginInput`}
                   id="combo-box-demo"
                   options={menuList.data}
                   getOptionLabel={(option) => option.label}
@@ -162,18 +162,28 @@ function Sales() {
                   onChange={chnageMenu}
                 />
                 <div className={`${styles.ReactDatePicker}`}>
-                  <DatePicker className='ReactDatePickerBig' selected={startDate2} onChange={(date) => {changeDateNew21(date); setStartDate2(date);}} selectsStart startDate={startDate2} endDate={endDate2}  maxDate={new Date()} />
-                  <Calendar/>
-                  <DatePicker className='ReactDatePickerBig' selected={endDate2} onChange={(date) => {changeDateNew22(date); setEndDate2(date)}} selectsEnd startDate={startDate2} endDate={endDate2} minDate={startDate2} maxDate={new Date()} />
-                  <Calendar/>
+                  <div className={`${styles.DatePickerWidget}`}>
+                    <DatePicker className='ReactDatePickerBig' selected={startDate2} onChange={(date) => {changeDateNew21(date); setStartDate2(date);}} selectsStart startDate={startDate2} endDate={endDate2}  maxDate={new Date()} />
+                    <Calendar/>
+                  </div>
+                  <p className={`${styles.DateRangeTo}`}>To</p>
+                  <div className={`${styles.DatePickerWidget}`}>
+                    <DatePicker className='ReactDatePickerBig' selected={endDate2} onChange={(date) => {changeDateNew22(date); setEndDate2(date)}} selectsEnd startDate={startDate2} endDate={endDate2} minDate={startDate2} maxDate={new Date()} />
+                    <Calendar/>
+                  </div>
                 </div>
               </div>}
-              {(filteBy === 'date') && <div className={`${styles.SalesDropDownDiv}`}>
+              {(filteBy === 'date') && <div className={`${styles.SalesDateRange2}`}>
                 <div className={`${styles.ReactDatePicker}`}>
-                  <DatePicker className='ReactDatePickerBig' selected={startDate} onChange={(date) => {changeDateNew1(date); setStartDate(date);}} selectsStart startDate={startDate} endDate={endDate}  maxDate={new Date()} />
-                  <Calendar/>
-                  <DatePicker className='ReactDatePickerBig' selected={endDate} onChange={(date) => {changeDateNew2(date); setEndDate(date)}} selectsEnd startDate={startDate} endDate={endDate} minDate={startDate} maxDate={new Date()} />
-                  <Calendar/>
+                  <div className={`${styles.DatePickerWidget}`}>
+                    <DatePicker className='ReactDatePickerBig' selected={startDate} onChange={(date) => {changeDateNew1(date); setStartDate(date);}} selectsStart startDate={startDate} endDate={endDate}  maxDate={new Date()} />
+                    <Calendar/>
+                  </div>
+                  <p className={`${styles.DateRangeTo}`}>To</p>
+                  <div className={`${styles.DatePickerWidget}`}>
+                    <DatePicker className='ReactDatePickerBig' selected={endDate} onChange={(date) => {changeDateNew2(date); setEndDate(date)}} selectsEnd startDate={startDate} endDate={endDate} minDate={startDate} maxDate={new Date()} />
+                    <Calendar/>
+                  </div>
                 </div>
               </div>}
             </div>

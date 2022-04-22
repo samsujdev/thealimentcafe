@@ -107,11 +107,11 @@ function AddItems() {
           <div className="Container">
 
             <div className={`${styles.BodyHeadArea}`}>
+              <Link to="/inventory/create" className={`${styles.BackBU}`}><ArrowLeft/></Link>
               <p className={`${styles.ViewUserTitle}`}>Items</p>
             </div>
 
-            <div className={`${styles.BodyHeadArea}`}>
-              <Link to="/inventory/create" className={`${styles.BackBU}`}><ArrowLeft/></Link>
+            <div className={`${styles.BodyHeadArea2}`}>
               <div className={`${styles.SalesDropDownDiv}`}>
                 <Autocomplete className="LoginInput"
                   id="combo-box-demo"

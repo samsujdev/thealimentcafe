@@ -243,15 +243,9 @@
     }
 }
 
-@media (min-width: 400px) {
-    .SalesDropDownDiv {
-        width: 170px;
-        margin-bottom: 0;
-    }
-}
-
-@media (min-width: 450px) {
+@media (min-width: 480px) {
     .SalesDropDownDiv {
         width: 200px;
+        margin-bottom: 0;
     }
 }
