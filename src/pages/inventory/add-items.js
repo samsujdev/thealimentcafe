@@ -137,12 +137,12 @@ function AddItems() {
                   if(selectItem === 0)
                     return true;
                     
-                  return item.category_id === selectItem;
+                  return parseInt(item.category_id) === parseInt(selectItem);
                 }).map((item,index)=>{
                   return (<tr key={index}>
                   <td><p>{(index+1)}</p></td>
                   <td><p>{item.item_name}</p></td>
-                  <td><p>50Pcs</p></td>
+                  <td><p>{item.packoff}</p></td>
                   <td><p>{item.category_name}</p></td>
                   <td><p className='TextCenter'>{moment(item.created_at).format('DD/MM/YYYY')}</p></td>
                 </tr>)

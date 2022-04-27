@@ -92,7 +92,7 @@ function StockInReport() {
                   <td><p>{(index+1)}</p></td>
                   <td><p>{item.item_name}</p></td>
                   <td><p>{item.category_name}</p></td>
-                  <td><p className='TextCenter'>{item.unit}</p></td>
+                  <td><p className='TextCenter'>{item.total_unit}</p></td>
                   <td><p className='TextCenter'>{item.packoff}</p></td>
                 </tr>)
                 })}

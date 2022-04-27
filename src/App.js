@@ -27,6 +27,8 @@ import StockOutReport from "./pages/inventory/stock-out-report";
 import InventoryReport from "./pages/inventory/inventory-report";
 import InventoryShop from "./pages/shop/inventory";
 import ShopNow from "./pages/shop/shopnow";
+import ProductionStock from "./pages/shop/production-stock";
+import ProductionStockReport from "./pages/shop/production-stock-report";
 
 
 function App() {
@@ -114,6 +116,12 @@ function App() {
         </Route>
         <Route path="/shop-now">
           <ShopNow />
+        </Route>
+        <Route path="/shop/production-stock">
+          <ProductionStock />
+        </Route>
+        <Route path="/shop/production-stock-report">
+          <ProductionStockReport />
         </Route>
       </Switch>
     </Router>

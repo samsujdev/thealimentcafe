@@ -59,7 +59,7 @@ function EditUser() {
         setValue('other',resData.other);
         //setValue('status',resData.status);
         
-        if(resData.status === 0){
+        if(parseInt(resData.status) === 0){
           setIsStatus(true);
         }
 

@@ -14,7 +14,7 @@ function Shopnow() {
   const userDet = localStorage.getItem("userDet");
   const userDetArr = JSON.parse(userDet);
   const router = useHistory();
-  const { register, handleSubmit, control, setValue, formState: { errors } } = useForm({
+  const { register, handleSubmit, control, setValue, formState: { errors }, clearErrors } = useForm({
     defaultValues: {
       inventory_items: [{ unit: '' }]
     }
@@ -123,7 +123,7 @@ function Shopnow() {
 
               <form onSubmit={handleSubmit(onSubmit)}>
 
-              <div className={`${styles.LoginInput}`}>
+              <div className={(errors.category_id)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
                   <div className={`${styles.InputArea}`}>
                     <label className={`${styles.FormLabel}`}>Category Name</label>
                     <Controller
@@ -143,19 +143,27 @@ function Shopnow() {
                 {fields.map((items,index)=>{
                 return (<div className={`${styles.LoginInput}`}>
 
-                  <div className={`${styles.InputArea}`}>
+                  <div className={(errors && errors.inventory_items && errors.inventory_items.length && errors.inventory_items[index]?.item)?`${styles.InputArea} Error`:`${styles.InputArea}`}>
                     <label className={`${styles.FormLabel}`}>Select Item</label>
-                    <Autocomplete className="LoginInput"
-                      id="combo-box-demo"
-                      options={itemList.data.filter(item => item.current_unit > 0 )}
-                      getOptionLabel={(option) => option.label}
-                      onChange={(e, options) =>{  if(options){ setValue(`inventory_items.${index}.item`, options.value); }else{ setValue(`inventory_items.${index}.item`, ''); }  }}
-                      renderInput={(params) => <TextField {...params} label="Select Item" size="small" variant="outlined" />}
+                    
+                  <Controller
+                    render={({ field }) => <Autocomplete className="LoginInput"
+                    id="combo-box-demo"
+                    options={itemList.data.filter(item => item.current_unit > 0 )}
+                    getOptionLabel={(option) => option.label}
+                    onChange={(e, options) =>{  if(options){ setValue(`inventory_items.${index}.item`, options.value); clearErrors(`inventory_items.${index}.item`); }else{ setValue(`inventory_items.${index}.item`, ''); }  }}
+                    renderInput={(params) => <TextField {...params} label="Select Item" size="small" variant="outlined" />}
+                />  }
+                    name={`inventory_items.${index}.item`}
+                    {...register(`inventory_items.${index}.item`, { required: true })}
+                    control={control}
                   />
+                  {(errors && errors.inventory_items && errors.inventory_items.length && errors.inventory_items[index]?.item) && <p className="LoginErrorText">Please select Item</p>}
                   </div>
-                  <div className={`${styles.InputAreaUnit}`}>
+                  <div className={(errors && errors.inventory_items && errors.inventory_items.length && errors.inventory_items[index]?.unit)?`${styles.InputAreaUnit} Error`:`${styles.InputAreaUnit}`}>
                     <label className={`${styles.FormLabel}`}>Units</label>
-                    <Controller render={({ field }) => <TextField {...field} value={field.value} onChange={(e) =>{  field.onChange(e.target.value); }} id="outlined-basic" type={'number'} variant="outlined" size="small" className='LoginInput'  />  } name={`inventory_items.${index}.unit`} control={control} />
+                    <Controller render={({ field }) => <TextField {...field} value={field.value} onChange={(e) =>{  field.onChange(e.target.value); }} id="outlined-basic" type={'number'} variant="outlined" size="small" className='LoginInput'  />  } name={`inventory_items.${index}.unit`} control={control} {...register(`inventory_items.${index}.unit`, { required: true,min:1 })} />
+                    {(errors && errors.inventory_items && errors.inventory_items.length && errors.inventory_items[index]?.unit) && <p className="LoginErrorText">Unit must be a positive number</p>} 
                 </div>
 
                 </div>)

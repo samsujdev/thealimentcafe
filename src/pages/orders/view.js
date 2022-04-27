@@ -155,10 +155,10 @@ function ViewOrders() {
                   {parseInt(item.status) === 3 && <p className='TextCenter'>Cancelled</p>}
                   </td>
                   {userDetArr.post === 'Super Admin' && <td>
-                    <p className='TextCenter'>07:30 PM</p>
+                    <p className='TextCenter'>{moment(item.created_at).format('hh:mm A')}</p>
                   </td>}
                   {userDetArr.post === 'Super Admin' && <td>
-                    <p className='TextCenter'>07:53 PM</p>
+                    <p className='TextCenter'>{moment(item.updated_at).format('hh:mm A')}</p>
                   </td>}
                   {userDetArr.post === 'Super Admin' && <td>
                     <p className='TextCenter'>{item.empCode}</p>

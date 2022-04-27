@@ -54,9 +54,6 @@ function Inventory() {
   }
 
   const [open, setOpen] = React.useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -131,118 +128,6 @@ function Inventory() {
               </table>
             </div>
 
-            {/* ************************ Production stock layout ************************* */}
-            {/* <div className={`${styles.BodyHeadArea}`}>
-              <Link to="/shop/inventory" className={`${styles.BackBU}`}><ArrowLeft/></Link>
-              <p className={`${styles.ViewUserTitle}`}>Production Stock</p>
-            </div>
-
-            <div className={`${styles.BodyHeadArea2}`}>
-              <div className={`${styles.SalesDropDownDiv}`}>
-                <Autocomplete className="LoginInput"
-                  id="combo-box-demo"
-                  options={filterItems}
-                  getOptionLabel={(option) => option.label}
-                  onChange={(e, options) =>{  if(options){ setSelectItem(options.value); }else{  setSelectItem(0); }}}
-                  renderInput={(params) => <TextField {...params} label="Type of Inventory" variant="outlined" />}
-                />
-              </div>
-            </div>
-
-            <div className={`${styles.TableContainer}`}>
-              <table>
-                <tr>
-                  <th>S.N.</th>
-                  <th>Name</th>
-                  <th>Category</th>
-                  <th className='TextCenter'>Pake Off</th>
-                  <th className='TextCenter'>Unit</th>
-                  <th className='TextCenter'>Date</th>
-                  <th className='TextCenter'>Stock Out</th>
-                </tr>
-                <tr>
-                  <td><p>1</p></td>
-                  <td><p>Chicken BL</p></td>
-                  <td><p>Meat & Fish</p></td>
-                  <td><p className='TextCenter'>2Kg</p></td>
-                  <td><p className='TextCenter'>1</p></td>
-                  <td><p className='TextCenter'>04/05/2022</p></td>
-                  <td><p className='TextCenter' onClick={handleClickOpen}>Stock In</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><p>1</p></td>
-                  <td><p>Chicken DS</p></td>
-                  <td><p>Meat & Fish</p></td>
-                  <td><p className='TextCenter'>1Kg</p></td>
-                  <td><p className='TextCenter'>2</p></td>
-                  <td><p className='TextCenter'>04/05/2022</p></td>
-                  <td><p className='TextCenter' onClick={handleClickOpen}>Stock In</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan={9}>
-                    <div className={`${styles.NoDataFound}`}>
-                      <AlertTriangle />
-                      <p>No data Found</p>
-                    </div>
-                  </td>
-                </tr>
-              </table>
-            </div> */}
-            {/* ************************ Production stock layout ************************* */}
-
-            {/* ************************ Production stock Report ************************* */}
-            {/* <div className={`${styles.BodyHeadArea}`}>
-              <Link to="/shop/inventory" className={`${styles.BackBU}`}><ArrowLeft/></Link>
-              <p className={`${styles.ViewUserTitle}`}>Production Stock Report</p>
-            </div>
-
-            <div className={`${styles.BodyHeadArea2}`}>Put here a date range filter @MR Jaman</div>
-
-            <div className={`${styles.TableContainer}`}>
-              <table>
-                <tr>
-                  <th>S.N.</th>
-                  <th>Name</th>
-                  <th>Category</th>
-                  <th className='TextCenter'>Pake Off</th>
-                  <th className='TextCenter'>Unit</th>
-                  <th className='TextCenter'>Stock In</th>
-                  <th className='TextCenter'>Stock Out</th>
-                </tr>
-                <tr>
-                  <td><p>1</p></td>
-                  <td><p>Chicken BL</p></td>
-                  <td><p>Meat & Fish</p></td>
-                  <td><p className='TextCenter'>2Kg</p></td>
-                  <td><p className='TextCenter'>1</p></td>
-                  <td><p className='TextCenter'>04/05/2022</p></td>
-                  <td><p className='TextCenter'>04/05/2022</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><p>1</p></td>
-                  <td><p>Chicken DS</p></td>
-                  <td><p>Meat & Fish</p></td>
-                  <td><p className='TextCenter'>1Kg</p></td>
-                  <td><p className='TextCenter'>2</p></td>
-                  <td><p className='TextCenter'>04/05/2022</p></td>
-                  <td><p className='TextCenter'>04/05/2022</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan={9}>
-                    <div className={`${styles.NoDataFound}`}>
-                      <AlertTriangle />
-                      <p>No data Found</p>
-                    </div>
-                  </td>
-                </tr>
-              </table>
-            </div> */}
-            {/* ************************ Production stock Report ************************* */}
-
           </div>
         </div>
 
@@ -250,10 +135,10 @@ function Inventory() {
           <div className={`${styles.TabConatiner}`}>
             <div className={`${styles.TabRow}`}>
               {/* ************************ Production stock ************************* */}
-              <Link className={`${styles.TabButtons}`}><Layers/></Link>
+              <Link to="/shop/production-stock" className={`${styles.TabButtons}`}><Layers/></Link>
               {/* ************************ Production stock ************************* */}
               {/* ************************ Production stock Report ************************* */}
-              <Link className={`${styles.TabButtons}`}><Clipboard/></Link>
+              <Link to="/shop/production-stock-report" className={`${styles.TabButtons}`}><Clipboard/></Link>
               {/* ************************ Production stock Report ************************* */}
             </div>
           </div>
