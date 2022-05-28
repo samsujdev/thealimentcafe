@@ -1,25 +1,23 @@
 import React, { useEffect,useState } from 'react';
 import styles from './add.module.css';
-import { ArrowLeft, Plus ,Minus} from 'react-feather';
+import { ArrowLeft, Plus , Minus} from 'react-feather';
 import {  TextField, Button } from '@material-ui/core';
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import axios from 'axios';
 import Header from "../../components/header";
 import Loader from "../../components/loader";
 import withAuth from "../../components/withAuth";
-import { useHistory,Link } from "react-router-dom";
+import { useHistory,Link,useParams } from "react-router-dom";
 import Select from 'react-select';
 
-function CeateMenu() {
+function EditMenu() {
   const router = useHistory();
-  const { register, handleSubmit, control, formState: { errors } } = useForm({
-    defaultValues: {
-      menu_item: [{item:'',unit: '' }]
-    }
-  });
+  const {id} = useParams();
+  const { register, handleSubmit, control,setValue, formState: { errors }  } = useForm();
   const [itemList,setItemList] = useState({'data':[],'loading':false});
   const { fields, append,remove } = useFieldArray({ control, name: "menu_item" });
   const [loading, setLoading] = React.useState(false);
+  const [menuCall, setMenuCall] = useState(false);
 
   useEffect(() => {
     
@@ -47,11 +45,39 @@ function CeateMenu() {
       fetchItems();
     }
 
+    function fetchMenu(){
+      console.log(id);
+
+      setMenuCall(true);
+      axios.get(process.env.REACT_APP_APIURL+'v1/menus/'+id)
+      .then(res => {
+        let resData = res.data.data;
+        setMenuCall(true);
+
+        console.log(resData);
+
+        setValue('menu_name', resData.menu_name);
+        setValue('amount', resData.amount);
+
+        resData.items.map((item,index)=>{
+          console.log(item);
+          append({ item: item.item_id, unit: item.unit });
+          return true;
+        });
+      }).catch(err =>{
+        setMenuCall(false);
+      });
+    }
+
+    if(!menuCall){
+      fetchMenu();
+    }
+
   });
 
   const onSubmit = data => {
     setLoading(true);
-    axios.post(process.env.REACT_APP_APIURL+'v1/menus',data)
+    axios.put(process.env.REACT_APP_APIURL+'v1/menus/'+id,data)
     .then(res => {
       setLoading(false);
       router.push('/menus/list');
@@ -60,10 +86,6 @@ function CeateMenu() {
       console.log(err);
     });
   };
-
-  const onError = error =>{
-    console.log(error);
-  }
 
   return (
     <div>
@@ -77,15 +99,15 @@ function CeateMenu() {
               
             <div className={`${styles.BodyHeadArea}`}>
               <Link to="/menus/list" className={`${styles.BackBU}`}><ArrowLeft/></Link>
-              <p className={`${styles.ViewUserTitle}`}>Create Menu</p>
+              <p className={`${styles.ViewUserTitle}`}>Edit Menu</p>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit,onError)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
 
             <div className={(errors.menu_name)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <TextField id="outlined-basic" label="Menu Name" variant="outlined" size="small" className='LoginInput'  {...register("menu_name", { required: true })} autoComplete="off" /> 
-                {errors.menu_name && <p className="LoginErrorText">Menu Name Can&apos;t Be Blank</p>}             
+                <TextField id="outlined-basic" label="Menu Name" variant="outlined" size="small" className='LoginInput'  {...register("menu_name", { required: true })} autoComplete="off" />             
+                {errors.menu_name && <p className="LoginErrorText">Menu Name Can&apos;t Be Blank</p>}
               </div>
             </div>
 
@@ -93,7 +115,7 @@ function CeateMenu() {
               return (<div key={items.id} className={`${styles.LoginInput}`}>
               <div className={(errors && errors.menu_item && errors.menu_item.length && errors.menu_item[index]?.item)?`${styles.InputArea} Error`:`${styles.InputArea}`}>
               <Controller
-                render={({ field }) => <Select {...field} id="outlined-basi99c" label="Select Item" variant="outlined" size="small" className='LoginInput' options={itemList.data} value={itemList.data.find(c => c.value === field.value)} onChange={val => field.onChange(val.value)} />  }
+                render={({ field }) => <Select {...field} id={"outlined-basi99c"+index} label="Select Item" variant="outlined" size="small" className='LoginInput' options={itemList.data} value={itemList.data.find(c => c.value === field.value)} onChange={val => field.onChange(val.value)} />  }
                 name={`menu_item.${index}.item`}
                 {...register(`menu_item.${index}.item`, { required: true })}
                 control={control}
@@ -102,7 +124,8 @@ function CeateMenu() {
               </div>
               <div className={(errors && errors.menu_item && errors.menu_item.length && errors.menu_item[index]?.unit)?`${styles.InputAreaUnit} Error`:`${styles.InputAreaUnit}`}>
               <Controller
-                render={({ field }) => <TextField {...field}  type={'number'} id="outlined-basic" label="Unit" variant="outlined" size="small" className='LoginInput' />  }
+                render={({ field }) => <TextField {...field}  type={'number'} id={"outlined-basic"+index} label="Unit" variant="outlined" size="small" className='LoginInput' />  }
+                name={`menu_item.${index}.unit`}
                 {...register(`menu_item.${index}.unit`, { required: true })}
                 control={control}
               />
@@ -111,6 +134,7 @@ function CeateMenu() {
               </div>
 
               <Button onClick={() => { remove(index); }} className={`${styles.LoginBU}`}><Minus/></Button>
+              
             </div>);
             })}
 
@@ -118,11 +142,11 @@ function CeateMenu() {
 
             <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
-                <Button onClick={() => { append({item:'',unit: '' }); }} className={`${styles.LoginBU}`}><Plus/></Button>
+                <Button onClick={() => { append(); }} className={`${styles.LoginBU}`}><Plus/></Button>
               </div>
             </div>
 
-            <div className={(errors.amount)?`${styles.LoginInput} Error`:`${styles.LoginInput}`}>
+            <div className={`${styles.LoginInput}`}>
               <div className={`${styles.InputArea}`}>
                 <TextField type={'number'} id="outlined-basic" label="Total" variant="outlined" size="small" className='LoginInput' {...register("amount", { required: true })} />
                 {errors.amount && <p className="LoginErrorText">Amount Can&apos;t Be Blank</p>}
@@ -146,4 +170,4 @@ function CeateMenu() {
 }
 
 
-export default withAuth(CeateMenu);
+export default withAuth(EditMenu);

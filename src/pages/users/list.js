@@ -59,7 +59,7 @@ function Users() {
                 return (<Link to={"/users/view/"+item.id} key={index} className={`${styles.UserList}`}>
                   <div className={`${styles.UserListDe}`}>
                     <p className={`${styles.UserListTitle}`}>{item.fullname}</p>
-                    <p className={`${styles.UserListID}`}>{item.emplyee_id} <span className={(item.status)?`${styles.Active}`:`${styles.Archive}`}>{(item.status)?`Active`:`Archive`}</span></p>
+                    <p className={`${styles.UserListID}`}>{item.emplyee_id} <span className={(parseInt(item.status))?`${styles.Active}`:`${styles.Archive}`}>{(item.status)?`Active`:`Archive`}</span></p>
                     <p className={`${styles.UserListDesig}`}>{item.post}</p>
                   </div>
                   <Button onClick={(e)=>editClick(e,item.id)} className={`${styles.UserEditBU}`}><Edit/></Button>

@@ -16,6 +16,7 @@ import StockAdd from "./pages/stocks/add-item";
 import StockUpdate from "./pages/stocks/stock-update";
 import MenuList from "./pages/menus/list";
 import MenuAdd from "./pages/menus/add";
+import MenuEdit from "./pages/menus/edit";
 import Sales from "./pages/sales/index";
 import InventoryList from "./pages/inventory/list";
 import AddInventory from "./pages/inventory/add-inventory";
@@ -83,6 +84,9 @@ function App() {
         </Route>
         <Route path="/menus/add">
           <MenuAdd />
+        </Route>
+        <Route path="/menus/edit/:id">
+          <MenuEdit />
         </Route>
         <Route path="/sales">
           <Sales />

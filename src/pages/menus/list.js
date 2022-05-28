@@ -1,12 +1,15 @@
 import React, { useEffect,useState } from 'react';
 import styles from './list.module.css';
-import { ArrowLeft, FilePlus,AlertTriangle } from 'react-feather';
+import { Edit,ArrowLeft, FilePlus,AlertTriangle } from 'react-feather';
 import axios from 'axios';
 import Header from "../../components/header";
 import withAuth from "../../components/withAuth";
 import { Link } from "react-router-dom";
+import {  Button } from '@material-ui/core';
+import { useHistory } from "react-router-dom";
 
 function MenuList() {
+  let history = useHistory();
   const userDet = localStorage.getItem("userDet");
   const userDetArr = JSON.parse(userDet);
   const [menuList,setMenuList] = useState({'data':[],'loading':false});
@@ -32,6 +35,11 @@ function MenuList() {
     }
 
   });
+
+  const editClick = (e,itemId)=>{
+    e.preventDefault();
+    history.push('/menus/edit/'+itemId);
+  }
 
   return (
     <div>
@@ -61,6 +69,7 @@ function MenuList() {
                   <th>Items</th>
                   <th className='TextCenter'>Units</th>
                   <th className='TextCenter'>Value</th>
+                  <th className='TextCenter'>&nbsp;</th>
                 </tr>
 
                 {menuList.data.map((item,index)=>{
@@ -83,6 +92,9 @@ function MenuList() {
                       </td>
                     <td>
                       <p className='TextCenter'>{item.amount}</p>
+                    </td>
+                    <td>
+                      <Button onClick={(e)=>editClick(e,item.id)} className={`${styles.UserEditBU}`}><Edit/></Button>
                     </td>
                   </tr>);
                 })}
