@@ -61,7 +61,7 @@ function EditMenu() {
 
         resData.items.map((item,index)=>{
           console.log(item);
-          append({ item: item.item_id, unit: item.unit });
+          append({ item: parseInt(item.item_id), unit: parseInt(item.unit) });
           return true;
         });
       }).catch(err =>{
